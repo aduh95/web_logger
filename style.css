@@ -1,0 +1,55 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+}
+
+body > header {
+  text-outline: 0;
+  width: 100vw;
+  height: 1.5rem;
+}
+body > header > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+body > header > ul > li {
+  padding: 0 0.3em;
+}
+
+body > main > header {
+  width: 100vw;
+  height: 2.5rem;
+  text-align: center;
+  background-color: #eee;
+}
+body > main time {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+main table {
+  position: relative;
+  height: calc(100vh - 6rem);
+  width: 100vw;
+  border-collapse: collapse;
+  overflow: auto;
+}
+main table > thead {
+  position: fixed;
+}
+main table > tbody {
+  background: blue;
+}
+main table th {
+  border: 1px outset grey;
+  background-color: grey;
+}
