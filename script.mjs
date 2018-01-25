@@ -7,11 +7,11 @@ const updateDate = elem => {
 document.addEventListener("DOMContentLoaded", () => {
   updateDate(document.getElementById("time"));
 
-  const table = document.getElementById("data-wrapper");
+  const table = document.querySelector("main");
 
   for (let i = 0; i < 999; ++i) {
-    let elem = document.createElement("tr");
-    elem.innerHTML = "<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>";
+    let elem = document.createElement("div");
+    elem.innerText = "message";
     table.appendChild(elem);
   }
 });
