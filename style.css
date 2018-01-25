@@ -9,7 +9,7 @@ body {
 
 body {
   display: grid;
-  grid-template-rows: 1rem 2rem auto;
+  grid-template-rows: 1.5rem 2rem auto;
 }
 
 body > header {
@@ -38,12 +38,17 @@ body > header > ul > li {
 }
 
 main {
-  height: calc(100vh - 3rem);
+  height: calc(100vh - 3.5rem);
   width: 100vw;
   overflow: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr) 5fr;
   grid-template-rows: 1.5rem;
+}
+
+main * {
+  border: 1px solid #ccc;
+  padding: 0 5px;
 }
 
 main h3 {
@@ -52,5 +57,11 @@ main h3 {
   border: 1px outset grey;
   background-color: grey;
   margin: 0;
+}
+
+main :nth-child(5n + 3) {
   text-align: center;
+}
+main :nth-child(5n + 4) {
+  text-align: right;
 }
