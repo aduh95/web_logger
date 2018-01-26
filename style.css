@@ -11,10 +11,6 @@ body {
   display: grid;
   grid-template-rows: 1.5rem 2rem auto;
 }
-
-body > header {
-  text-outline: 0;
-}
 body > header > ul {
   list-style: none;
   margin: 0;
@@ -22,7 +18,8 @@ body > header > ul {
   display: flex;
 }
 body > header > ul > li {
-  padding: 0 0.3em;
+  padding: 0 5px;
+  line-height: 1.5rem;
 }
 
 #time {
@@ -33,6 +30,7 @@ body > header > ul > li {
   background-color: #eee;
 
   font-size: 2rem;
+  line-height: 2rem;
   font-weight: bold;
   text-align: center;
 }
