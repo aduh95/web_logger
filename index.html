@@ -3,7 +3,10 @@
 <head>
     <meta charset="utf-8">
     <title>Apex</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/layout.css">
+    <link rel="stylesheet" href="/messages.css">
+    <link rel="stylesheet" href="/fallback-message.css">
+    <script type="module" src="./remove-fallback-warning.mjs"></script>
     <script type="module" src="./communication.mjs"></script>
 </head>
 
@@ -26,6 +29,18 @@
         <h3>Target</h3>
         <h3>Message</h3>
     </main>
+
+    <div>
+        <input id="fallback-message-ctrl" type="checkbox">
+        <dialog open="open" id="fallback-message">
+            <label for="fallback-message-ctrl">
+                <strong>Warning!</strong> Your browser does not support all the features Apex needs. You experience may be less enjoyable
+                as it should. Please consider activate the corresponding flags in your browser's settings or use a different
+                one.
+                <em>[Close]</em>
+            </label>
+        </dialog>
+    </div>
 </body>
 
 </html>
