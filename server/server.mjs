@@ -55,6 +55,11 @@ for (let serverFile of [
   }
 }
 
+const readExampleFile = () =>
+  fs
+    .readFile("./example.json")
+    .then(buffer => Promise.resolve(JSON.parse(buffer)));
+
 let wsConnection = null;
 
 export default CONFIG => {
@@ -72,6 +77,15 @@ export default CONFIG => {
     wsConnection = connection;
 
     connection.ping(1);
+    let i = 0;
+
+    readExampleFile().then(examples => {
+      for (let example of examples) {
+        setTimeout(d => {
+          wsConnection.send(JSON.stringify(example));
+        }, 1000 + i++ * 10);
+      }
+    });
   });
   refreshBrowser(CONFIG);
 };

@@ -1,0 +1,4 @@
+[
+  ["date", "heure", "AZERTY", "0", "normal", "Hello World"],
+  ["date", "heure", "QWERTY", "0", "error", "Error message"]
+]
