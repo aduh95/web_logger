@@ -13,10 +13,12 @@ export const CSS_FILES = [
   "/layout.css",
   "/messages.css",
   "/fallback-message.css",
+  "/scroll-message.css",
 ];
 export const JS_MODULES = [
   "/communication.mjs",
   "/remove-fallback-warning.mjs",
+  "/scroll.mjs",
   "/view.mjs",
 ];
 export const JS_SCRIPTS = [];
@@ -83,7 +85,7 @@ export default CONFIG => {
       for (let example of examples) {
         setTimeout(d => {
           wsConnection.send(JSON.stringify(example));
-        }, 1000 + i++ * 10);
+        }, 1000 + i++ * 100);
       }
     });
   });

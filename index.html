@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/layout.css">
     <link rel="stylesheet" href="/messages.css">
     <link rel="stylesheet" href="/fallback-message.css">
+    <link rel="stylesheet" href="/scroll-message.css">
     <script type="module" src="./remove-fallback-warning.mjs"></script>
     <script type="module" src="./communication.mjs"></script>
 </head>
@@ -30,6 +31,11 @@
         <h3>Message</h3>
     </main>
 
+    <div>
+        <dialog id="scroll-message">
+            New message below ⤵
+        </dialog>
+    </div>
     <div>
         <input id="fallback-message-ctrl" type="checkbox">
         <dialog open="open" id="fallback-message">

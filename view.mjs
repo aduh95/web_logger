@@ -1,4 +1,5 @@
 //@ts-check
+import scrollToNewMessage from "/scroll.mjs";
 
 /**
  * Sets the date into an element
@@ -33,7 +34,7 @@ export const displayMessage = param => {
   const table = document.querySelector("main");
 
   table.appendChild(deserializeMessage(param));
-  table.scrollTo(0, 1 << 30);
+  scrollToNewMessage(table);
 };
 
 /**
