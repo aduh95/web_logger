@@ -11,16 +11,46 @@ body {
   display: grid;
   grid-template-rows: 1.5rem 2rem auto;
 }
-body > header > ul {
+
+/* MENU section  */
+
+body > nav {
+  grid-row-start: 1;
+  overflow: visible;
+}
+body > nav > ul,
+body > nav > ul ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
 }
-body > header > ul > li {
-  padding: 0 5px;
+body > nav > ul > li {
+  display: block;
+  padding: 0;
   line-height: 1.5rem;
 }
+body > nav > ul > li li,
+nav button {
+  display: block;
+  width: 100%;
+  height: 1.5rem;
+}
+
+body > nav > ul > li ul {
+  display: none;
+}
+body > nav > ul > li:hover > button {
+  border-style: inset;
+}
+body > nav > ul > li:hover button + ul {
+  display: block;
+  flex-direction: column;
+}
+
+/* End of MENU section */
+
+/* TIME section */
 
 #time {
   display: block;
@@ -34,6 +64,10 @@ body > header > ul > li {
   font-weight: bold;
   text-align: center;
 }
+
+/* End of TIME section */
+
+/* CONTENT section */
 
 main {
   height: calc(100vh - 3.5rem);
@@ -67,3 +101,5 @@ main :nth-child(5n + 3) {
 main :nth-child(5n + 4) {
   text-align: right;
 }
+
+/* End of CONTENT section */

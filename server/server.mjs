@@ -17,6 +17,7 @@ export const CSS_FILES = [
 ];
 export const JS_MODULES = [
   "/communication.mjs",
+  "/menu.mjs",
   "/remove-fallback-warning.mjs",
   "/scroll.mjs",
   "/view.mjs",
@@ -79,16 +80,22 @@ export default CONFIG => {
     wsConnection = connection;
 
     connection.ping(1);
+    connection.on("message", msg => console.log(msg));
     let i = 0;
+
+    fs.readFile("./menu.json").then(buffer => {
+      wsConnection.send(buffer.toString("utf-8"));
+    });
 
     readExampleFile().then(examples => {
       for (let example of examples) {
         setTimeout(d => {
-          wsConnection.send(JSON.stringify(example));
+          wsConnection.send(JSON.stringify({ message: example }));
         }, 1000 + i++ * 100);
       }
     });
   });
+
   refreshBrowser(CONFIG);
 };
 

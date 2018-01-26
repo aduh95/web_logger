@@ -1,0 +1,22 @@
+{
+  "menu": [
+    {
+      "label": "Configuration",
+      "action": null,
+      "subsection": [
+        {
+          "label": "test",
+          "action": "test"
+        }
+      ]
+    },
+    {
+      "label": "Manage targets",
+      "subsection": []
+    },
+    {
+      "label": "Quit",
+      "action": "quit"
+    }
+  ]
+}
