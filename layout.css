@@ -65,5 +65,5 @@ main :nth-child(5n + 3) {
   text-align: center;
 }
 main :nth-child(5n + 4) {
-  text-align: right;
+  text-align: center;
 }

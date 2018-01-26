@@ -1,1 +1,36 @@
-/* TODO */
+
+.message{
+ background-color: white;
+ color: black;
+ font-weight: normal;
+}
+
+.valid{
+    background-color: #666666;
+    color: #00FF00;
+    font-weight: bold;
+}
+
+.fault{
+    background-color: #666666;
+    color: #FFFF00;
+    font-weight: bold; 
+}
+
+.notif{
+    background-color: #169003;
+    color: white;
+    font-weight: bold;
+}
+
+.critical{
+    background-color: white;
+    color: #FF0000;
+    font-weight: bold;
+}
+
+.alarm{
+    background-color: #FF0000;
+    color: white;
+    font-weight: bold;
+}
