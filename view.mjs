@@ -5,9 +5,7 @@
  * @param elem {HTMLElement} The element to update
  */
 const updateDate = elem => {
-  setInterval(() => {
-    elem.innerText = new Date().toLocaleTimeString();
-  }, 1000);
+  elem.innerText = new Date().toLocaleTimeString();
 };
 
 /**
@@ -70,11 +68,9 @@ const deserializeMessage = param => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  updateDate(document.getElementById("time"));
-
-  for (let i = 0; i < 99; ++i) {
-    setTimeout(d => {
-      displayMessage("date,heure,AZERTY,0,error,Hello World".split(","));
-    }, 100 + i * 10);
-  }
+  const time = document.getElementById("time");
+  updateDate(time);
+  setInterval(() => {
+    updateDate(time);
+  }, 1000);
 });
