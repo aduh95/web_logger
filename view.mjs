@@ -1,7 +1,5 @@
 //@ts-check
 
-const SPLIT_CHARACTER = ",";
-
 /**
  * Sets the date into an element
  * @param elem {HTMLElement} The element to update
@@ -30,13 +28,23 @@ const playAudio = path => {
 const decodeKeyboardInput = keyboardInput => null;
 
 /**
- * Decodes a message from back-end into HTML elements
- * @param msg {string} The message to decode
+ * Displays a message from back-end into HTML elements
+ * @param param {string[]}
+ */
+export const displayMessage = param => {
+  const table = document.querySelector("main");
+
+  table.appendChild(deserializeMessage(param));
+  table.scrollTo(0, 1 << 30);
+};
+
+/**
+ * Creates the HTMLElement objects for a given message
+ * @param param {string[]} The message to display
  * @returns A DocumentFragment containing the HTML elements
  */
-const decodeMessage = msg => {
+const deserializeMessage = param => {
   let i;
-  const param = msg.split(SPLIT_CHARACTER);
   const frag = document.createDocumentFragment();
 
   for (i = 0; i < 4; ++i) {
@@ -64,11 +72,9 @@ const decodeMessage = msg => {
 document.addEventListener("DOMContentLoaded", () => {
   updateDate(document.getElementById("time"));
 
-  const table = document.querySelector("main");
-
-  for (let i = 0; i < 999; ++i) {
-    let elem = document.createElement("div");
-    elem.innerText = "message";
-    table.appendChild(decodeMessage("date,heure,AZERTY,0,error,Hello World"));
+  for (let i = 0; i < 99; ++i) {
+    setTimeout(d => {
+      displayMessage("date,heure,AZERTY,0,error,Hello World".split(","));
+    }, 100 + i * 10);
   }
 });

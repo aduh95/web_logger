@@ -41,12 +41,14 @@ main {
   overflow: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr) 5fr;
-  grid-template-rows: 1.5rem;
+  align-content: start;
 }
 
 main * {
   border: 1px solid #ccc;
   padding: 0 5px;
+  height: 1.2rem;
+  line-height: 1.2rem;
 }
 
 main h3 {
@@ -55,6 +57,8 @@ main h3 {
   border: 1px outset grey;
   background-color: grey;
   margin: 0;
+  height: 1.5rem;
+  line-height: 1.5rem;
 }
 
 main :nth-child(5n + 3) {
