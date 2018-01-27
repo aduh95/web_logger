@@ -80,7 +80,13 @@ export default CONFIG => {
     wsConnection = connection;
 
     connection.ping(1);
-    connection.on("message", msg => console.log(msg));
+    connection.on("message", msg => {
+      console.log(msg);
+      if (msg.utf8Data === "quit") {
+        wsConnection.close();
+        process.exit();
+      }
+    });
     let i = 0;
 
     fs.readFile("./menu.json").then(buffer => {
