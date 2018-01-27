@@ -1,4 +1,9 @@
 [
-  ["date", "heure", "AZERTY", "0", "normal", "Hello World"],
-  ["date", "heure", "QWERTY", "0", "error", "Error message"]
+  ["date", "1:30", "MSG_54", "EXAMPLE", "message", "Message of type 'message'"],
+  ["date", "12:30", "VLD_42", "EXAMPLE", "valid", "Message of type 'valid'"],
+  ["date", "12:30", "FLT_18", "EXAMPLE", "fault", "Message of type 'fault'"],
+  ["date", "12:30", "NTF_00", "EXAMPLE", "notif", "Message of type 'notif'"],
+  ["date", "0", "CRT_25", "EXAMPLE", "critical", "Message of type 'critical'"],
+  ["date", "23:59", "ALM_11", "EXAMPLE", "alarm", "Message of type 'alarm'"],
+  ["date", "00:00", "UKN_88", "EXAMPLE", "", "Message of type unknown"]
 ]
