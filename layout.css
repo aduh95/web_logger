@@ -5,11 +5,12 @@ body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
+  font-family: Arial, sans-serif;
 }
 
 body {
   display: grid;
-  grid-template-rows: 1.5rem 2rem auto;
+  grid-template-rows: 1.5rem 5rem auto;
 }
 
 /* MENU section  */
@@ -60,8 +61,7 @@ body > nav > ul > li:hover button + ul {
   background-color: #eee;
 
   font-size: 2rem;
-  line-height: 2rem;
-  font-weight: bold;
+  line-height: 5rem;
   text-align: center;
 }
 
@@ -89,17 +89,19 @@ main h3 {
   position: sticky;
   top: 0;
   border: 1px outset grey;
-  background-color: grey;
+  background-color: #AAAAAA;
+  font-weight: normal;
   margin: 0;
   height: 1.5rem;
   line-height: 1.5rem;
+  font-size: 1rem;
 }
 
 main :nth-child(5n + 3) {
   text-align: center;
 }
 main :nth-child(5n + 4) {
-  text-align: right;
+  text-align: center;
 }
 
 /* End of CONTENT section */
