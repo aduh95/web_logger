@@ -47,6 +47,11 @@ for (let serverFile of [
     files: JS_SCRIPTS.concat(JS_NO_MODULES_FALLBACK),
     folder: "",
   },
+  {
+    type: "font/woff2",
+    files: ["/arial.woff2"],
+    folder: "",
+  },
 ]) {
   for (let file of serverFile.files) {
     app.get(file, (req, res) => {

@@ -8,6 +8,11 @@ body {
   font-family: Arial, sans-serif;
 }
 
+@font-face {
+  font-family: "Arial";
+  src: url("/arial.woff2") format("woff2");
+}
+
 body {
   --menu-height: 1.5rem;
   --time-height: 5rem;
