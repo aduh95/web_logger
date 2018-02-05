@@ -86,9 +86,11 @@ main {
 }
 
 main * {
-  border: 1px solid #ccc;
-  border-top: none;
-  border-right-style: none;
+  --border-color: #ccc;
+  box-shadow: 1px 0 0 0 var(--border-color), 0 1px 0 0 var(--border-color),
+    1px 1px 0 0 var(--border-color), 1px 0 0 0 var(--border-color) inset,
+    0 1px 0 0 var(--border-color) inset;
+  border: none;
   padding: 0 5px;
   height: 1.2rem;
   line-height: 1.2rem;
@@ -97,17 +99,13 @@ main * {
 main h3 {
   position: sticky;
   top: 0;
-  border: 1px outset grey;
+  --border-color: grey;
   background-color: #aaaaaa;
   font-weight: normal;
   margin: 0;
   height: 1.5rem;
   line-height: 1.5rem;
   font-size: 1rem;
-}
-
-main :nth-child(5n) {
-  border-right-style: solid;
 }
 
 main :nth-child(5n + 3),
