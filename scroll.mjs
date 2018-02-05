@@ -7,7 +7,7 @@ let bottomFixed = true;
  */
 const doTheScroll = table => {
   if (bottomFixed) {
-    table.scrollTo(0, 1 << 30);
+    table.lastElementChild.scrollIntoView();
   } else {
     /** @type {HTMLDialogElement} */
     const dialog = document.getElementById("scroll-message");
