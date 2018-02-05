@@ -2,21 +2,21 @@
   "menu": [
     {
       "label": "Configuration",
-      "action": null,
-      "subsection": [
+      "click": null,
+      "submenu": [
         {
           "label": "test",
-          "action": "test"
+          "click": "test"
         }
       ]
     },
     {
       "label": "Manage targets",
-      "subsection": []
+      "submenu": []
     },
     {
       "label": "Quit",
-      "action": "quit"
+      "click": "quit"
     }
   ]
 }

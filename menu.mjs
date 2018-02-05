@@ -17,15 +17,15 @@ const createMenuSection = section => {
   button.appendChild(
     document.createTextNode(section.label || SECTION_DEFAULT_LABEL)
   );
-  if (section.action) {
+  if (section.click) {
     button.onclick = function() {
-      socket.send(section.action);
+      socket.send(section.click);
     };
   }
   frag.appendChild(button);
 
-  if (section.subsection) {
-    frag.appendChild(createMenu(section.subsection));
+  if (section.submenu) {
+    frag.appendChild(createMenu(section.submenu));
   }
 
   return frag;
