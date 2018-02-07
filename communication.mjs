@@ -9,6 +9,8 @@ import setMenu from "/menu.mjs";
 
 const socket = new WebSocket("ws://" + window.location.host + "/");
 
+const closeWindow = () => window.close();
+
 // Listen for messages to reload the page
 socket.addEventListener("message", event => {
   const data = JSON.parse(event.data);
@@ -23,6 +25,10 @@ socket.addEventListener("message", event => {
 });
 
 // When server closes the connection, let's close the tab
-socket.addEventListener("close", () => window.close());
+socket.addEventListener("close", closeWindow);
+
+window.addEventListener("beforeunload", () => {
+  socket.removeEventListener("close", closeWindow);
+});
 
 export default socket;
