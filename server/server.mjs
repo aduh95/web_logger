@@ -9,6 +9,7 @@ let waitForBrowserToOpen = null;
 
 const SERVED_FILES_FOLDER = path.resolve(".");
 const INDEX_FILE = path.join(SERVED_FILES_FOLDER, "index.html");
+export const FONT_FILES = ["/arial.woff2", "/arialbd.woff2"];
 export const CSS_FILES = [
   "/layout.css",
   "/messages.css",
@@ -49,7 +50,7 @@ for (let serverFile of [
   },
   {
     type: "font/woff2",
-    files: ["/arial.woff2"],
+    files: FONT_FILES,
     folder: "",
   },
 ]) {
