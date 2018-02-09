@@ -1,3 +1,5 @@
+@import "/arial.css";
+
 html,
 body {
   padding: 0;
@@ -8,18 +10,6 @@ body {
   font-family: Arial, sans-serif;
   font-size: 24px;
   font-weight: normal;
-}
-
-@font-face {
-  font-family: "Arial";
-  src: url("/arial.woff2") format("woff2");
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: "Arial";
-  font-weight: bold;
-  src: url("/arialbd.woff2") format("woff2");
 }
 
 body {
