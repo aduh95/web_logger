@@ -4,10 +4,11 @@
  * WebSocket client module
  */
 
+import PORT from "/webSocketPort.mjs";
 import { displayMessage } from "/view.mjs";
 import setMenu from "/menu.mjs";
 
-const socket = new WebSocket("ws://" + window.location.host + "/");
+const socket = new WebSocket(`ws://${window.location.hostname}:${PORT}/`);
 
 const closeWindow = () => window.close();
 
