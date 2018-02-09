@@ -79,7 +79,7 @@ main {
   width: 100vw;
   overflow: auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr) 5fr;
+  grid-template-columns: repeat(2, auto) repeat(2, 1fr) 5fr;
   align-content: start;
 }
 
@@ -93,6 +93,7 @@ main * {
   height: 1rem;
   line-height: 1rem;
   font-size: 0.65rem;
+  text-align: center;
 }
 
 main h3 {
@@ -107,11 +108,8 @@ main h3 {
   font-size: 0.65rem;
 }
 
-main :nth-child(5n + 1),
-main :nth-child(5n + 2),
-main :nth-child(5n + 3),
-main :nth-child(5n + 4) {
-  text-align: center;
+main :nth-child(5n) {
+  text-align: left;
 }
 
 /* End of CONTENT section */
