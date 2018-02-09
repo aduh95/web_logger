@@ -22,6 +22,7 @@ export const JS_MODULES = [
   "/remove-fallback-warning.mjs",
   "/scroll.mjs",
   "/view.mjs",
+  "/webSocketPort.mjs",
 ];
 export const JS_SCRIPTS = [];
 export const JS_NO_MODULES_FALLBACK = [];
