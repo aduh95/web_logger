@@ -4,3 +4,7 @@
   right: 3rem;
   margin-right: 0;
 }
+#scroll-message::after {
+  content: "\2935";
+  font-family: serif;
+}
