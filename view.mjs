@@ -1,6 +1,8 @@
 // @ts-check
 // @ts-ignore
 import scrollToNewMessage from "/scroll.mjs";
+// @ts-ignore
+import socket from "/communication.mjs";
 
 /**
  * Sets the date into an element
@@ -21,11 +23,14 @@ const playAudio = path => {
   }
 };
 
+const keyListeners = [];
+
 /**
- * TODO
- * @param keyboardInput {any} TODO
+ * Add a keyboard input to listen to
+ * @param keyboardInput {string} The key you want to listen to
  */
-const decodeKeyboardInput = keyboardInput => null;
+const decodeKeyboardInput = keyboardInput =>
+  keyListeners.includes(keyboardInput) || keyListeners.push(keyboardInput);
 
 /**
  * Displays a message from back-end into HTML elements
@@ -75,4 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(() => {
     updateDate(time);
   }, 1000);
+});
+
+window.addEventListener("keyup", event => {
+  if (keyListeners.includes(event.key)) {
+    socket.send(event.key);
+    keyListeners.splice(keyListeners.indexOf(event.key), 1);
+  }
 });

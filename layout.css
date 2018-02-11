@@ -110,7 +110,7 @@ main h3 {
   position: sticky;
   top: 0;
   --border-color: grey;
-  background-color: #aaaaaa;
+  background-color: #aaa;
   font-weight: normal;
   margin: 0;
   height: 1rem;
