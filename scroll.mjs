@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 let bottomFixed = true;
 
 /**
@@ -10,6 +10,7 @@ const doTheScroll = table => {
     table.lastElementChild.scrollIntoView();
   } else {
     /** @type {HTMLDialogElement} */
+    // @ts-ignore
     const dialog = document.getElementById("scroll-message");
     dialog.show();
     dialog.addEventListener("click", function() {

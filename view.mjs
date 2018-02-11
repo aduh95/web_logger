@@ -1,4 +1,5 @@
-//@ts-check
+// @ts-check
+// @ts-ignore
 import scrollToNewMessage from "/scroll.mjs";
 
 /**

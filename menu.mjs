@@ -1,4 +1,5 @@
-//@ts-check
+// @ts-check
+// @ts-ignore
 import socket from "/communication.mjs";
 
 const SECTION_DEFAULT_LABEL = "LABEL";
