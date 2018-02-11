@@ -14,7 +14,7 @@ const updateDate = elem => {
  * @param path {string} The URL of the audio file to play
  */
 const playAudio = path => {
-  const audio = new HTMLAudioElement(path).play();
+  const audio = new Audio(path).play();
   if (audio !== undefined) {
     audio.catch(e => console.error(e));
   }
