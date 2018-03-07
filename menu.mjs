@@ -7,7 +7,7 @@ const nav = document.createElement("nav");
 
 const createMenu = (menu, parent) => {
   const list = document.createElement("ul");
-  menu.map(createMenuSection).map(cv => list.appendChild(cv));
+  menu.map(createMenuSection).forEach(cv => list.appendChild(cv));
   return list;
 };
 

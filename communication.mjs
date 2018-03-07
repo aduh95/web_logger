@@ -4,8 +4,11 @@
  * WebSocket client module
  */
 
+//@ts-ignore
 import PORT from "/webSocketPort.mjs";
+//@ts-ignore
 import { displayMessage } from "/view.mjs";
+//@ts-ignore
 import setMenu from "/menu.mjs";
 
 const socket = new WebSocket(`ws://${window.location.hostname}:${PORT}/`);
