@@ -2,20 +2,39 @@
 
 from threading import Thread
 import json
-import time
+import os
 
-from menu import menu
+from apex import Apex
 
 class Demo(Thread):
     def __init__(self, ws_server=None):
-            Thread.__init__(self)
-            self.ws_server=ws_server
+        Thread.__init__(self)
+        self.apex = Apex(ws_server)
 
     def run(self):
         print("WebSocket connected")
-        self.ws_server.sendData(json.dumps(menu))
+        self.apex.defineNewMenu([
+            {
+                "label": "Configuration",
+                "click": None,
+                "submenu": [
+                    {
+                    "label": "test",
+                    "click": lambda: print("test")
+                    }
+                ]
+            },
+            {
+                "label": "Manage targets",
+                "submenu": []
+            },
+            {
+                "label": "Quit",
+                "click": lambda: os._exit(0)
+            }
+        ])
         with open("./example.json") as f:
             data = json.load(f)
             for message in data:
-                time.sleep(.3)
-                self.ws_server.sendData(json.dumps({"message":message}))
+                input("Press enter to send a new message")
+                self.apex.sendMessage(message[5], mnemonic=message[2], target=message[3], type=message[4])

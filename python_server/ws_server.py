@@ -3,19 +3,22 @@
 import asyncio
 import websockets
 from threading import Thread
-
-from menu import serializedFunctions
+import json
 
 
 class Websocket_server(Thread):
-    def __init__(self, port=3000, thread=None):
+    def __init__(self, port=3000, apex=None):
         Thread.__init__(self)
         self.port = port
         self.connected = set()
         self.showMustGoOn = True
-        self.threadOnConnection = thread
+        self.threadOnConnection = []
+        self.apex = apex
         with open('./webSocketPort.mjs', 'w') as f:
             f.write('export default '+str(port))
+
+    def attach(self, thread):
+        self.threadOnConnection.append(thread)
 
     def run(self):
         self.loop = asyncio.new_event_loop()
@@ -27,25 +30,26 @@ class Websocket_server(Thread):
 
     async def handler(self, websocket, path):
         self.connected.add(websocket)
-        if self.threadOnConnection and not self.threadOnConnection.is_alive():
-            self.threadOnConnection.ws_server=self
-            self.threadOnConnection.start()
+        for thread in self.threadOnConnection:
+            if not thread.is_alive():
+                thread.ws_server=self
+                thread.start()
         try:
             while True:
                 print("WS: waiting socket...")
                 data = await websocket.recv()
                 print("WS: socket received")
-                serializedFunctions[int(data) - 1]()
+                if self.apex: self.apex.executeMenuAction(data)
         except websockets.exceptions.ConnectionClosed:
             print("WS: connection closed")
             pass
         finally:
             self.connected.remove(websocket)
 
-    def sendData(self, data):
+    def send(self, data):
         for websocket in self.connected.copy():
             print("Sending data: %s" % data)
-            coro = websocket.send(data)
+            coro = websocket.send(json.dumps(data))
             future = asyncio.run_coroutine_threadsafe(coro, self.loop)
 
 

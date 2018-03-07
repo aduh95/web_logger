@@ -55,3 +55,10 @@ menu definitions are sent, the last one will be displayed. This allows you to
 override a menu definition on the fly.
 
 You can try it by adding example in the `example.json` file.
+
+### Python API
+
+The methods are available via the `Apex` module.
+
+Please note it is a good idea to define a inside which the operations will be
+executed once the servers are ready. You can find an example in `demo.py`.

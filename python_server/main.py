@@ -13,7 +13,9 @@ from demo import Demo
 
 def main(browser_name, http_port, ws_port):
     http_server = Server(http_port, Browser(browser_name))
-    ws_server = Websocket_server(ws_port, Demo())
+    ws_server = Websocket_server(ws_port)
+
+    ws_server.attach(Demo(ws_server))
 
     http_server.start()
     ws_server.start()
