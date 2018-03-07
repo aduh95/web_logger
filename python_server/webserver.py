@@ -2,7 +2,6 @@
 
 from http.server import *
 import asyncio
-import websockets
 
 PORT = 8080
 server_address = ('localhost', PORT)
