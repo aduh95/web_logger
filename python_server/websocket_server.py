@@ -8,7 +8,6 @@ from threading import Thread
 
 
 class Websocket_server(Thread):
-
     def __init__(self, port=3000):
         Thread.__init__(self)
         self.port = port
@@ -37,6 +36,6 @@ class Websocket_server(Thread):
         for websocket in self.connected.copy():
             print("Sending data: %s" % data)
             coro = websocket.send(data)
-            future = asyncio.run_coroutine_threadsafe(coro, loop)
+            future = asyncio.run_coroutine_threadsafe(coro, self.loop)
 
 

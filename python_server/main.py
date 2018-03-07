@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import time
 import webbrowser
 
 from webserver import Server
@@ -14,6 +15,7 @@ def main():
     server.start()
     websocket_server.start()
 
+    time.sleep(1)
     with open("./menu.json") as f:
         websocket_server.sendData(f.read())
 
