@@ -33,8 +33,10 @@ class Demo(Thread):
                 "click": lambda: os._exit(0)
             }
         ])
+        data=[]
         with open("./example.json") as f:
             data = json.load(f)
+        while True:
             for message in data:
                 input("Press enter to send a new message")
                 self.apex.sendMessage(message[5], mnemonic=message[2], target=message[3], type=message[4])
