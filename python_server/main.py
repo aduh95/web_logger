@@ -3,10 +3,13 @@
 import os
 import time
 import webbrowser
+import json
 
 from webserver import Server
 from websocket_server import Websocket_server
 from browser import Browser
+
+from menu import menu
 
 def main():
     server = Server(8080, Browser("chromium-browser"))
@@ -16,8 +19,7 @@ def main():
     websocket_server.start()
 
     time.sleep(1)
-    with open("./menu.json") as f:
-        websocket_server.sendData(f.read())
+    websocket_server.sendData(json.dumps(menu))
 
     server.join()
     websocket_server.join()

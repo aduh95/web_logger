@@ -9,5 +9,6 @@ class Browser(Thread):
         self.appAddress = appAddress
 
     def run(self):
-        subprocess.run([self.browserPath,"--app="+self.appAddress])
+        subprocess.run([self.browserPath,"--incognito","--app="+self.appAddress], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print("Browser has been closed")
         os._exit(0)

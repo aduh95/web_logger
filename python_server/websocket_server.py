@@ -6,6 +6,8 @@ import json
 import time
 from threading import Thread
 
+from menu import serializedFunctions
+
 
 class Websocket_server(Thread):
     def __init__(self, port=3000):
@@ -13,7 +15,6 @@ class Websocket_server(Thread):
         self.port = port
         self.connected = set()
         self.showMustGoOn = True
-        self.dataToSend = []
 
     def run(self):
         self.loop = asyncio.new_event_loop()
@@ -26,8 +27,13 @@ class Websocket_server(Thread):
     async def handler(self, websocket, path):
         self.connected.add(websocket)
         try:
-            await websocket.recv()
+            while True:
+                print("WS: waiting socket...")
+                data = await websocket.recv()
+                print("WS: socket received")
+                serializedFunctions[int(data) - 1]()
         except websockets.exceptions.ConnectionClosed:
+            print("WS: connection closed")
             pass
         finally:
             self.connected.remove(websocket)
