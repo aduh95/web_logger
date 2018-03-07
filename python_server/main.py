@@ -11,8 +11,8 @@ from browser import Browser
 
 from demo import Demo
 
-def main(http_port, ws_port):
-    http_server = Server(http_port, Browser("chromium-browser"))
+def main(browser_name, http_port, ws_port):
+    http_server = Server(http_port, Browser(browser_name))
     ws_server = Websocket_server(ws_port, Demo())
 
     http_server.start()
@@ -28,11 +28,12 @@ if __name__ == '__main__':
                     help='Port used for HTTP web server')
     parser.add_argument('--ws-port', type=int, default=8081,
                     help='Port used for websocket server')
+    parser.add_argument('--browser', type=str, default="chromium-browser",
+                    help='Path / Name of the browser to use')
 
     args = parser.parse_args()
-    print(args)
     try:
-        main(args.http_port, args.ws_port)
+        main(args.browser, args.http_port, args.ws_port)
     except KeyboardInterrupt:
         print ('Interrupted')
         try:

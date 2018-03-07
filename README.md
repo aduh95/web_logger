@@ -5,17 +5,18 @@
 First, you have to ensure that these dependencies are installed and available on
 your path:
 
-* [Node (v8.5+)](//nodejs.org)
-* [Yarn](//yarnpkg.com) or [npm](//npmjs.com)
+* [Python 3.5+](//python.org)
+* [pip](//yarnpkg.com)
 
 ```bash
-yarn install
+sudo pip3 install websockets
 ```
 
 Then you are good to go:
 
 ```bash
-yarn start
+python3 python_server/main.py -h # prints the help
+python3 python_server/main.py # launch with default arguments
 ```
 
 ### Browser support
@@ -26,7 +27,8 @@ has been developed for those browsers:
 * Chrome 62+
 * Firefox 57+ (please activate the following flags:
   `dom.dialog_element.enabled`, `dom.moduleScripts.enabled`,
-  `dom.allow_scripts_to_close_windows`)
+  `dom.allow_scripts_to_close_windows`) (Warning: Doesn't seem to work when
+  launched from python CLI)
 
 ### Communication with the server
 
