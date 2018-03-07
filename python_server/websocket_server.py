@@ -15,6 +15,8 @@ class Websocket_server(Thread):
         self.port = port
         self.connected = set()
         self.showMustGoOn = True
+        with open('./webSocketPort.mjs', 'w') as f:
+            f.write('export default '+str(port))
 
     def run(self):
         self.loop = asyncio.new_event_loop()
