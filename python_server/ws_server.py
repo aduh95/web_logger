@@ -2,19 +2,18 @@
 
 import asyncio
 import websockets
-import json
-import time
 from threading import Thread
 
 from menu import serializedFunctions
 
 
 class Websocket_server(Thread):
-    def __init__(self, port=3000):
+    def __init__(self, port=3000, thread=None):
         Thread.__init__(self)
         self.port = port
         self.connected = set()
         self.showMustGoOn = True
+        self.threadOnConnection = thread
         with open('./webSocketPort.mjs', 'w') as f:
             f.write('export default '+str(port))
 
@@ -28,6 +27,9 @@ class Websocket_server(Thread):
 
     async def handler(self, websocket, path):
         self.connected.add(websocket)
+        if self.threadOnConnection and not self.threadOnConnection.is_alive():
+            self.threadOnConnection.ws_server=self
+            self.threadOnConnection.start()
         try:
             while True:
                 print("WS: waiting socket...")

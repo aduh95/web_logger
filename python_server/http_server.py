@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from http.server import *
-import asyncio
 from threading import Thread
 
 
