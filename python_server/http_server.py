@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from http.server import *
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
 
 
@@ -9,7 +9,7 @@ class Server(Thread):
     def __init__(self, port=8080, browser=None):
         Thread.__init__(self)
         self.port = 8080
-        self.browser=browser
+        self.browser = browser
 
     def run(self):
 
@@ -19,7 +19,7 @@ class Server(Thread):
         httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
 
         if self.browser:
-            self.browser.appAddress="http://localhost:"+str(self.port)
+            self.browser.appAddress = "http://localhost:"+str(self.port)
             self.browser.start()
 
         httpd.serve_forever()

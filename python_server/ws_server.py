@@ -23,7 +23,8 @@ class Websocket_server(Thread):
     def run(self):
         self.loop = asyncio.new_event_loop()
 
-        start_server = websockets.serve(self.handler, 'localhost', self.port, loop=self.loop)
+        start_server = websockets.serve(
+            self.handler, 'localhost', self.port, loop=self.loop)
 
         self.loop.run_until_complete(start_server)
         self.loop.run_forever()
@@ -32,14 +33,15 @@ class Websocket_server(Thread):
         self.connected.add(websocket)
         for thread in self.threadOnConnection:
             if not thread.is_alive():
-                thread.ws_server=self
+                thread.ws_server = self
                 thread.start()
         try:
             while True:
                 print("WS: waiting socket...")
                 data = await websocket.recv()
                 print("WS: socket received")
-                if self.apex: self.apex.executeMenuAction(data)
+                if self.apex:
+                    self.apex.executeMenuAction(data)
         except websockets.exceptions.ConnectionClosed:
             print("WS: connection closed")
             pass
@@ -51,5 +53,3 @@ class Websocket_server(Thread):
             print("Sending data: %s" % data)
             coro = websocket.send(json.dumps(data))
             future = asyncio.run_coroutine_threadsafe(coro, self.loop)
-
-
