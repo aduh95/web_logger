@@ -4,13 +4,13 @@ from threading import Thread
 import json
 import os
 
-from apex import Apex
+from apex import ApexClient
 
 
 class Demo(Thread):
     def __init__(self, ws_server=None):
         Thread.__init__(self)
-        self.apex = Apex(ws_server)
+        self.apex = ApexClient(ws_server)
 
     def run(self):
         print("WebSocket connected")
@@ -40,5 +40,5 @@ class Demo(Thread):
         while True:
             for message in data:
                 input("Press enter to send a new message")
-                self.apex.sendMessage(
+                self.apex.printMessage(
                     message[5], mnemonic=message[2], target=message[3], type=message[4])

@@ -3,7 +3,7 @@
 from time import strftime
 
 
-class Apex:
+class ApexClient:
     def __init__(self, ws_server):
         self.ws_server = ws_server
         ws_server.apex = self
@@ -27,7 +27,7 @@ class Apex:
         except:
             print("Menu: Invalid action")
 
-    def sendMessage(self, message, mnemonic="Unknown", type="message", target="Unknown", keyboardInput=None, audioFile=None):
+    def printMessage(self, message, mnemonic="Unknown", type="message", target="Unknown", keyboardInput=None, audioFile=None):
         self.ws_server.send({"message": [
             strftime("%x"),
             strftime("%X"),
