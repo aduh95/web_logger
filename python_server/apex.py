@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 
+from threading import Thread
 from time import strftime
 
 
-class ApexClient:
+class ApexClient(Thread):
     def __init__(self, ws_server):
+        Thread.__init__(self)
+        self.executeOnReady = lambda _: None
         self.ws_server = ws_server
         ws_server.apex = self
+
+    def run(self):
+        self.executeOnReady(self)
 
     def defineNewMenu(self, menus):
         self.serializedFunctions = []

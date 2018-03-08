@@ -8,15 +8,18 @@ import argparse
 from http_server import Server
 from ws_server import Websocket_server
 from browser import Browser
+from apex import ApexClient
 
-from demo import Demo
+from demo import demo
 
 
 def main(browser_name, http_port, ws_port):
     http_server = Server(http_port, Browser(browser_name))
     ws_server = Websocket_server(ws_port)
+    client = ApexClient(ws_server)
 
-    ws_server.attach(Demo(ws_server))
+    ws_server.attach(client)
+    client.executeOnReady = demo
 
     http_server.start()
     ws_server.start()

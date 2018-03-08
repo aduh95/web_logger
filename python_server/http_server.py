@@ -18,7 +18,7 @@ class Server(Thread):
         SimpleHTTPRequestHandler.extensions_map[".mjs"] = "application/javascript"
         httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
 
-        if self.browser:
+        if self.browser and not self.browser.is_alive():
             self.browser.appAddress = "http://localhost:"+str(self.port)
             self.browser.start()
 
