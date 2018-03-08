@@ -14,8 +14,10 @@ from demo import demo
 
 
 def main(browser_name, http_port, ws_port):
-    http_server = Server(http_port, Browser(browser_name))
-    ws_server = Websocket_server(ws_port)
+    browser = Browser(
+        browser_name, appAddress="http://localhost:"+str(http_port))
+    http_server = Server(http_port, browserLock=browser.getLock())
+    ws_server = Websocket_server(ws_port, browserLock=browser.getLock())
     client = ApexClient(ws_server)
 
     ws_server.attach(client)
@@ -23,9 +25,11 @@ def main(browser_name, http_port, ws_port):
 
     http_server.start()
     ws_server.start()
+    browser.start()
 
     http_server.join()
     ws_server.join()
+    browser.join()
 
 
 if __name__ == '__main__':

@@ -2,18 +2,21 @@
 
 import asyncio
 import websockets
-from threading import Thread
+from threading import Thread, Semaphore
 import json
 
 
 class Websocket_server(Thread):
-    def __init__(self, port=3000, apex=None):
+    def __init__(self, port=3000, apex=None, browserLock=None):
         Thread.__init__(self)
         self.port = port
         self.connected = set()
         self.showMustGoOn = True
         self.threadOnConnection = []
         self.apex = apex
+        self.browserLock = browserLock
+        if browserLock:
+            browserLock.acquire()
         with open('./webSocketPort.mjs', 'w') as f:
             f.write('export default '+str(port))
 
@@ -27,6 +30,9 @@ class Websocket_server(Thread):
             self.handler, 'localhost', self.port, loop=self.loop)
 
         self.loop.run_until_complete(start_server)
+        if self.browserLock:
+            self.browserLock.release()
+        print("WebSockets server ready")
         self.loop.run_forever()
 
     async def handler(self, websocket, path):
