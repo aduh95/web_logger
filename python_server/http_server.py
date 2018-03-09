@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
 

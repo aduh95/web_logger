@@ -6,18 +6,23 @@ First, you have to ensure that these dependencies are installed and available on
 your path:
 
 * [Python 3.5+](//python.org)
-* [pip](//yarnpkg.com)
 
 ```bash
-sudo pip3 install websockets
+python3.5 -m pip install websockets
 ```
 
 Then you are good to go:
 
 ```bash
-python3 python_server/main.py -h # prints the help
-python3 python_server/main.py # launch with default arguments
+./demo.py -h # prints the help
+./demo.py # launch with default arguments
+
+# If python3.5 is not in your path, you have to execute the following
+python3 demo.py
 ```
+
+> There is also a demo server in Node.js that you can run with `yarn start` or
+> `npm start`.
 
 ### Browser support
 
@@ -58,7 +63,6 @@ You can try it by adding example in the `example.json` file.
 
 ### Python API
 
-The methods are available via the `Apex` module.
-
-Please note it is a good idea to define a inside which the operations will be
-executed once the servers are ready. You can find an example in `demo.py`.
+The methods are available via the `ClientApex` class. You can give a function as
+the `onReady` parameter of the constructor to interact with the client. Please
+check `demo.py` to see how to get started.

@@ -1,15 +1,31 @@
-#!/usr/bin/env python3
-
 from threading import Thread
 from time import strftime
 
+from http_server import Server
+from ws_server import Websocket_server
+from browser import Browser
+
 
 class ApexClient(Thread):
-    def __init__(self, ws_server):
+    def __init__(self, browser_name, http_port, ws_port, onReady=lambda _: None):
         Thread.__init__(self)
-        self.executeOnReady = lambda _: None
-        self.ws_server = ws_server
-        ws_server.apex = self
+        browser = Browser(
+            browser_name, appAddress="http://localhost:"+str(http_port))
+
+        self.executeOnReady = onReady
+        self.ws_server = Websocket_server(
+            ws_port, browserLock=browser.getLock())
+        self.ws_server.apex = self
+        self.ws_server.attach(self)
+        http_server = Server(http_port, browserLock=browser.getLock())
+
+        http_server.start()
+        self.ws_server.start()
+        browser.start()
+
+        http_server.join()
+        self.ws_server.join()
+        browser.join()
 
     def run(self):
         self.executeOnReady(self)
