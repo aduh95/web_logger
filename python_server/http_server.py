@@ -15,10 +15,10 @@ class Server(Thread):
         server_address = ('localhost', self.port)
 
         SimpleHTTPRequestHandler.extensions_map[".mjs"] = "application/javascript"
-        httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
+        httpDeamon = HTTPServer(server_address, SimpleHTTPRequestHandler)
 
         if self.browserLock:
             self.browserLock.release()
 
         print("HTTP server ready")
-        httpd.serve_forever()
+        httpDeamon.serve_forever()

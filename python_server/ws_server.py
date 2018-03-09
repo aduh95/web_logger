@@ -1,11 +1,13 @@
+import os
+import json
 import asyncio
 import websockets
 from threading import Thread, Semaphore
-import json
 
 
 class Websocket_server(Thread):
-    def __init__(self, port=3000, apex=None, browserLock=None):
+
+    def __init__(self, port=3000, apex=None, browserLock=None, jsModulePath='./webSocketPort.mjs'):
         Thread.__init__(self)
         self.port = port
         self.connected = set()
@@ -15,8 +17,9 @@ class Websocket_server(Thread):
         self.browserLock = browserLock
         if browserLock:
             browserLock.acquire()
-        with open('./webSocketPort.mjs', 'w') as f:
-            f.write('export default '+str(port))
+        if os.access(jsModulePath, os.W_OK):
+            with open(jsModulePath, 'w') as f:
+                f.write('export default '+str(port))
 
     def attach(self, thread):
         self.threadOnConnection.append(thread)
@@ -30,7 +33,7 @@ class Websocket_server(Thread):
         self.loop.run_until_complete(start_server)
         if self.browserLock:
             self.browserLock.release()
-        print("WebSockets server ready")
+        print("WS: server ready")
         self.loop.run_forever()
 
     async def handler(self, websocket, path):
@@ -54,6 +57,6 @@ class Websocket_server(Thread):
 
     def send(self, data):
         for websocket in self.connected.copy():
-            print("Sending data: %s" % data)
-            coro = websocket.send(json.dumps(data))
-            future = asyncio.run_coroutine_threadsafe(coro, self.loop)
+            print("WS: Sending data: %s" % data)
+            asyncio.run_coroutine_threadsafe(
+                websocket.send(json.dumps(data)), self.loop)
