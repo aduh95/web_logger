@@ -1,13 +1,13 @@
 import open from "open";
 import path from "path";
-import fs from "fs-extra";
+import fs from "fs/promises";
 import express from "express";
 import webSocket from "websocket";
 
 const WAIT_FOR_BROWSER_TO_OPEN = 2500;
 let waitForBrowserToOpen = null;
 
-const SERVED_FILES_FOLDER = path.resolve(".");
+const SERVED_FILES_FOLDER = path.resolve("./www");
 const INDEX_FILE = path.join(SERVED_FILES_FOLDER, "index.html");
 export const FONT_FILES = ["/arial.woff2", "/arialbd.woff2"];
 export const CSS_FILES = [
@@ -68,7 +68,7 @@ for (let serverFile of [
 const readExampleFile = () =>
   fs
     .readFile("./example.json")
-    .then(buffer => Promise.resolve(JSON.parse(buffer)));
+    .then(buffer => JSON.parse(buffer));
 
 let wsConnection = null;
 
