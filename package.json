@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node --experimental-modules ./server/index.mjs"
+    "start": "node --experimental-modules ./node_server/index.mjs"
   },
   "dependencies": {
     "express": "^4.16.2",

@@ -9,6 +9,7 @@ let waitForBrowserToOpen = null;
 
 const SERVED_FILES_FOLDER = path.resolve("./www");
 const INDEX_FILE = path.join(SERVED_FILES_FOLDER, "index.html");
+const WEBSOCKET_SERVER = "/webSocketPort.mjs";
 export const FONT_FILES = ["/arial.woff2", "/arialbd.woff2"];
 export const CSS_FILES = [
   "/layout.css",
@@ -22,7 +23,7 @@ export const JS_MODULES = [
   "/remove-fallback-warning.mjs",
   "/scroll.mjs",
   "/view.mjs",
-  "/webSocketPort.mjs",
+  WEBSOCKET_SERVER,
 ];
 export const JS_SCRIPTS = [];
 export const JS_NO_MODULES_FALLBACK = [];
@@ -66,9 +67,7 @@ for (let serverFile of [
 }
 
 const readExampleFile = () =>
-  fs
-    .readFile("./example.json")
-    .then(buffer => JSON.parse(buffer));
+  fs.readFile("./example.json").then(buffer => JSON.parse(buffer));
 
 let wsConnection = null;
 
@@ -94,6 +93,7 @@ export default CONFIG => {
         process.exit();
       }
     });
+
     let i = 0;
 
     fs.readFile("./menu.json").then(buffer => {
@@ -109,7 +109,12 @@ export default CONFIG => {
     });
   });
 
-  refreshBrowser(CONFIG);
+  fs
+    .writeFile(
+      SERVED_FILES_FOLDER + WEBSOCKET_SERVER,
+      "export default " + CONFIG.PORT_NUMBER
+    )
+    .then(() => refreshBrowser(CONFIG));
 };
 
 export const refreshBrowser = CONFIG => {
