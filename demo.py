@@ -25,6 +25,11 @@ def commandExample():
     """)
 
 
+def cleanClient(client):
+    print("Let's flush all those non-sense messages")
+    client.clean()
+
+
 def demo(client):
     print("WebSocket connected")
     client.defineNewMenu([
@@ -38,7 +43,7 @@ def demo(client):
                 },
                 {
                     "label": "Clean APEX",
-                    "click": lambda: client.clean()
+                    "click": lambda: cleanClient(client)
                 }
             ]
         },
