@@ -11,6 +11,20 @@ sys.path.append("./python_server")
 from python_server.apexClient import ApexClient
 
 
+def commandExample():
+    print("""
+    This function is pointless, but it *COULD* be awesome!
+
+                 (__) 
+                 (oo) 
+           /------\/ 
+          / |    ||   
+         *  /\---/\ 
+            ~~   ~~   
+..."Have you mooed today?"...
+    """)
+
+
 def demo(client):
     print("WebSocket connected")
     client.defineNewMenu([
@@ -20,7 +34,11 @@ def demo(client):
             "submenu": [
                 {
                     "label": "test",
-                    "click": lambda: print("test")
+                    "click": commandExample
+                },
+                {
+                    "label": "Clean APEX",
+                    "click": lambda: client.clean()
                 }
             ]
         },

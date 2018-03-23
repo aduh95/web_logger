@@ -43,6 +43,9 @@ class ApexClient(Thread):
             if "submenu" in menuItem:
                 self.serializeFunctions(menuItem["submenu"])
 
+    def clean(self):
+        self.ws_server.send({"command": "clean"})
+
     def executeMenuAction(self, id):
         try:
             self.serializedFunctions[int(id) - 1]()
