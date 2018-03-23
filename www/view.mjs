@@ -43,6 +43,19 @@ export const displayMessage = param => {
   scrollToNewMessage(table);
 };
 
+export const handleCommand = command => {
+  switch (command) {
+    case "clean":
+      const messages = document.querySelectorAll("main>div");
+      for (const message of messages) {
+        message.remove();
+      }
+      // @ts-ignore
+      document.getElementById("scroll-message").close();
+      break;
+  }
+};
+
 /**
  * Creates the HTMLElement objects for a given message
  * @param param {string[]} The message to display

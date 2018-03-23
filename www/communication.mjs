@@ -7,7 +7,7 @@
 //@ts-ignore
 import PORT from "/webSocketPort.mjs";
 //@ts-ignore
-import { displayMessage } from "/view.mjs";
+import { handleCommand, displayMessage } from "/view.mjs";
 //@ts-ignore
 import setMenu from "/menu.mjs";
 
@@ -25,6 +25,10 @@ socket.addEventListener("message", event => {
 
   if (data.menu) {
     setMenu(data.menu);
+  }
+
+  if (data.command) {
+    handleCommand(data.command);
   }
 });
 
