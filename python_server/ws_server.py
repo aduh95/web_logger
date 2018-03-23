@@ -1,4 +1,3 @@
-import os
 import json
 import asyncio
 import websockets
@@ -17,11 +16,8 @@ class Websocket_server(Thread):
         self.browserLock = browserLock
         if browserLock:
             browserLock.acquire()
-        if os.access(jsModulePath, os.W_OK):
-            with open(jsModulePath, 'w') as f:
-                f.write('export default '+str(port))
-        else:
-            raise Exception('Cannot write on www folder ('+jsModulePath+")")
+        with open(jsModulePath, 'w') as f:
+            f.write('export default {}'.format(port))
 
     def attach(self, thread):
         self.threadOnConnection.append(thread)
@@ -33,9 +29,9 @@ class Websocket_server(Thread):
             self.handler, 'localhost', self.port, loop=self.loop)
 
         self.loop.run_until_complete(start_server)
+        print("WS: server ready")
         if self.browserLock:
             self.browserLock.release()
-        print("WS: server ready")
         self.loop.run_forever()
 
     async def handler(self, websocket, path):
