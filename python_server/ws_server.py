@@ -20,6 +20,8 @@ class Websocket_server(Thread):
         if os.access(jsModulePath, os.W_OK):
             with open(jsModulePath, 'w') as f:
                 f.write('export default '+str(port))
+        else:
+            raise Exception('Cannot write on www folder ('+jsModulePath+")")
 
     def attach(self, thread):
         self.threadOnConnection.append(thread)
