@@ -18,7 +18,14 @@ class Browser(Thread):
     def run(self):
         for lock in self.locks:
             lock.acquire()
-        subprocess.run([self.browserPath, "--incognito", "--app="+self.appAddress],
-                       check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if os.access(self.browserPath, os.X_OK):
+            subprocess.run(
+                [self.browserPath, "--incognito", "--app=" + self.appAddress],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+        else:
+            print("ERROR: browser is not executable! Aborting...")
         print("Browser has been closed")
         os._exit(0)
