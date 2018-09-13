@@ -1,20 +1,18 @@
 from threading import Thread
 from time import strftime
 
-from http_server import Server
-from ws_server import Websocket_server
-from browser import Browser
+from .http_server import Server
+from .ws_server import Websocket_server
+from .browser import Browser
 
 
 class ApexClient(Thread):
     def __init__(self, browser_name, http_port, ws_port, onReady=lambda _: None):
         Thread.__init__(self)
-        browser = Browser(
-            browser_name, appAddress="http://localhost:"+str(http_port))
+        browser = Browser(browser_name, appAddress="http://localhost:" + str(http_port))
 
         self.executeOnReady = onReady
-        self.ws_server = Websocket_server(
-            ws_port, browserLock=browser.getLock())
+        self.ws_server = Websocket_server(ws_port, browserLock=browser.getLock())
         self.ws_server.apex = self
         self.ws_server.attach(self)
         http_server = Server(http_port, browserLock=browser.getLock())
@@ -52,14 +50,26 @@ class ApexClient(Thread):
         except:
             print("Menu: Invalid action")
 
-    def printMessage(self, message, mnemonic="Unknown", type="message", target="Unknown", keyboardInput=None, audioFile=None):
-        self.ws_server.send({"message": [
-            strftime("%x"),
-            strftime("%X"),
-            mnemonic,
-            target,
-            type,
-            message,
-            keyboardInput,
-            audioFile
-        ]})
+    def printMessage(
+        self,
+        message,
+        mnemonic="Unknown",
+        type="message",
+        target="Unknown",
+        keyboardInput=None,
+        audioFile=None,
+    ):
+        self.ws_server.send(
+            {
+                "message": [
+                    strftime("%x"),
+                    strftime("%X"),
+                    mnemonic,
+                    target,
+                    type,
+                    message,
+                    keyboardInput,
+                    audioFile,
+                ]
+            }
+        )
