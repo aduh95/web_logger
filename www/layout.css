@@ -111,6 +111,10 @@ main * {
   line-height: 1rem;
   font-size: 0.65rem;
   text-align: center;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 main h3 {
