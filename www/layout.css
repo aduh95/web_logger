@@ -62,12 +62,14 @@ body > nav > ul > li li.separator {
 body > nav > ul > li ul {
   flex-direction: column;
   visibility: hidden;
+  height: 0;
 }
 body > nav > ul > li:hover > button {
   border-style: inset;
 }
 body > nav > ul > li:hover button + ul {
   visibility: visible;
+  height: auto;
 }
 
 /* End of MENU section */
