@@ -24,6 +24,7 @@ socket.addEventListener("message", event => {
   }
 
   if (data.menu) {
+    sessionStorage.setItem("menu", event.data);
     setMenu(data.menu);
   }
 

@@ -34,6 +34,7 @@ body {
 body > nav {
   grid-row-start: 1;
   overflow: visible;
+  position: relative;
 }
 body > nav > ul,
 body > nav > ul ul {
@@ -53,16 +54,22 @@ nav button {
   width: 100%;
   height: var(--menu-height);
 }
+body > nav > ul > li li.separator {
+  height: 1px;
+  background-color: black;
+}
 
 body > nav > ul > li ul {
-  display: none;
+  flex-direction: column;
+  visibility: hidden;
+  height: 0;
 }
 body > nav > ul > li:hover > button {
   border-style: inset;
 }
 body > nav > ul > li:hover button + ul {
-  display: block;
-  flex-direction: column;
+  visibility: visible;
+  height: auto;
 }
 
 /* End of MENU section */

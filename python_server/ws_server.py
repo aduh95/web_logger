@@ -37,9 +37,11 @@ class Websocket_server(Thread):
     async def handler(self, websocket, path):
         self.connected.add(websocket)
         for thread in self.threadOnConnection:
-            if not thread.is_alive():
+            try:
                 thread.ws_server = self
                 thread.start()
+            except:
+                pass
         try:
             while True:
                 print("WS: waiting socket...")
