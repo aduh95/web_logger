@@ -6,7 +6,7 @@ class Server(Thread):
 
     def __init__(self, port=8080, browserLock=None):
         Thread.__init__(self)
-        self.port = 8080
+        self.port = port
         self.browserLock = browserLock
         if browserLock:
             browserLock.acquire()
