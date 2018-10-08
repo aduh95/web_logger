@@ -35,4 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 });
 
+addEventListener(
+  "resize",
+  () => document.getElementById("scroll-message").click(),
+  { passive: true }
+);
+
 export default doTheScroll;
