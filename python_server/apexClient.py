@@ -12,10 +12,11 @@ from .browser import Browser
 class ApexClient(Thread):
     DEBUG_ENABLED = False
 
-    def __init__(self, browser_name, http_port, ws_port, onReady=lambda _: None):
+    def __init__(self, browser_name, http_port, ws_port, onReady=lambda _: None, onClosing=lambda _:None):
         Thread.__init__(self)
         browser = Browser(browser_name, appAddress="http://localhost:" + str(http_port))
 
+        self.should_terminate = False
         self.executeOnReady = onReady
         self.ws_server = Websocket_server(ws_port, browserLock=browser.getLock())
         self.ws_server.apex = self
@@ -37,8 +38,20 @@ class ApexClient(Thread):
         http_server.join()
         self.ws_server.join()
 
+        onClosing(self)
+
     def run(self):
         self.executeOnReady(self)
+
+    def stop(self):
+        # Stopping WS server should close the browser
+        # Which then will terminate the other threads
+        try:
+            self.ws_server.close()
+        except:
+            # Wait for the client to be ready
+            self.executeOnReady = self.stop
+        self.should_terminate = True
 
     def defineNewMenu(self, menus):
         self.serializedFunctions = []

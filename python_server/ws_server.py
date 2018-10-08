@@ -19,6 +19,8 @@ class Websocket_server(Thread):
         self.showMustGoOn = True
         self.threadOnConnection = []
         self.apex = apex
+        self.server = None
+        self.loop = None
         self.browserLock = browserLock
         self.bindingAddress = bindingAddress
         if browserLock:
@@ -31,17 +33,23 @@ class Websocket_server(Thread):
         self.threadOnConnection.append(thread)
 
     def run(self):
-        self.loop = asyncio.new_event_loop()
+        try:
+            self.loop = asyncio.get_event_loop()
+        except:
+            self.loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self.loop)
+            self.verbosePrint("Loop created")
 
-        start_server = websockets.serve(
+        start_server = websockets.server.serve(
             self.handler, self.bindingAddress, self.port, loop=self.loop
         )
 
-        self.loop.run_until_complete(start_server)
+        self.server = self.loop.run_until_complete(start_server)
         print("WS server ready")
         if self.browserLock:
             self.browserLock.release()
         self.loop.run_forever()
+        self.server.wait_closed()
         self.loop.close()
         print("WS server off")
 
@@ -55,9 +63,9 @@ class Websocket_server(Thread):
                 pass
         try:
             while True:
-                self.verbosePrint("waiting socket...")
+                self.verbosePrint("waiting for a socket...")
                 data = await websocket.recv()
-                self.verbosePrint("socket received")
+                self.verbosePrint("socket received: {}".format(data))
                 if self.apex:
                     self.apex.executeMenuAction(data)
         except websockets.exceptions.ConnectionClosed:
@@ -67,14 +75,25 @@ class Websocket_server(Thread):
             self.connected.remove(websocket)
 
     def send(self, data):
+        if self.loop.is_closed():
+            raise Exception("Cannot send messages with a closed instance")
         for websocket in self.connected.copy():
             self.verbosePrint("Sending data: %s" % data)
             asyncio.run_coroutine_threadsafe(
                 websocket.send(json.dumps(data)), self.loop
             )
 
+    def close(self):
+        if self.server:
+            self.server.close()
+        else:
+            raise Exception("Cannot close non running server")
+
     def stop(self):
-        self.loop.call_soon_threadsafe(self.stopLoop)
+        if self.loop and self.loop.is_running():
+            self.loop.call_soon_threadsafe(self.stopLoop)
+        else:
+            self.verbosePrint("Cannot stop a closed loop")
 
     def stopLoop(self):
         if callable(asyncio.all_tasks):
