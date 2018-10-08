@@ -5,8 +5,14 @@ from threading import Thread, Semaphore
 
 
 class Websocket_server(Thread):
-
-    def __init__(self, port=3000, apex=None, browserLock=None, jsModulePath='./webSocketPort.mjs'):
+    def __init__(
+        self,
+        port=3000,
+        apex=None,
+        browserLock=None,
+        bindingAddress="localhost",
+        jsModulePath="./webSocketPort.mjs",
+    ):
         Thread.__init__(self)
         self.port = port
         self.connected = set()
@@ -14,10 +20,12 @@ class Websocket_server(Thread):
         self.threadOnConnection = []
         self.apex = apex
         self.browserLock = browserLock
+        self.bindingAddress = bindingAddress
         if browserLock:
             browserLock.acquire()
-        with open(jsModulePath, 'w') as f:
-            f.write('export default {}'.format(port))
+        # Communicating WS port to the client (browser)
+        with open(jsModulePath, "w") as f:
+            f.write("export default {}".format(port))
 
     def attach(self, thread):
         self.threadOnConnection.append(thread)
@@ -26,13 +34,16 @@ class Websocket_server(Thread):
         self.loop = asyncio.new_event_loop()
 
         start_server = websockets.serve(
-            self.handler, 'localhost', self.port, loop=self.loop)
+            self.handler, self.bindingAddress, self.port, loop=self.loop
+        )
 
         self.loop.run_until_complete(start_server)
-        print("WS: server ready")
+        print("WS server ready")
         if self.browserLock:
             self.browserLock.release()
         self.loop.run_forever()
+        self.loop.close()
+        print("WS server off")
 
     async def handler(self, websocket, path):
         self.connected.add(websocket)
@@ -59,4 +70,22 @@ class Websocket_server(Thread):
         for websocket in self.connected.copy():
             print("WS: Sending data: %s" % data)
             asyncio.run_coroutine_threadsafe(
-                websocket.send(json.dumps(data)), self.loop)
+                websocket.send(json.dumps(data)), self.loop
+            )
+
+    def stop(self):
+        self.loop.call_soon_threadsafe(self.stopLoop)
+
+    def stopLoop(self):
+        if callable(asyncio.all_tasks):
+            # Python 3.7+
+            tasks = asyncio.all_tasks(self.loop)
+        elif callable(asyncio.Task.all_tasks):
+            # Python 3.5 - 3.6
+            tasks = asyncio.Task.all_tasks(self.loop)
+        else:
+            tasks = set()
+
+        for task in tasks:
+            task.cancel()
+        self.loop.stop()

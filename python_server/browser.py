@@ -25,7 +25,8 @@ class Browser(Thread):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
+            print("Browser has been closed")
         else:
-            print("ERROR: browser is not executable! Aborting...")
-        print("Browser has been closed")
-        os._exit(0)
+            print('FAILURE: "{}" is not executable!'.format(self.browserPath))
+        for lock in self.locks:
+            lock.release()

@@ -12,12 +12,10 @@ from .browser import Browser
 class ApexClient(Thread):
     def __init__(self, browser_name, http_port, ws_port, onReady=lambda _: None):
         Thread.__init__(self)
-        browser = Browser(
-            browser_name, appAddress="http://localhost:" + str(http_port))
+        browser = Browser(browser_name, appAddress="http://localhost:" + str(http_port))
 
         self.executeOnReady = onReady
-        self.ws_server = Websocket_server(
-            ws_port, browserLock=browser.getLock())
+        self.ws_server = Websocket_server(ws_port, browserLock=browser.getLock())
         self.ws_server.apex = self
         self.ws_server.attach(self)
         http_server = Server(http_port, browserLock=browser.getLock())
@@ -26,9 +24,16 @@ class ApexClient(Thread):
         self.ws_server.start()
         browser.start()
 
+        # Wait for browser thread to end (I.E. the user closes it)
+        browser.join()
+
+        print("Stopping servers...")
+        http_server.stop()
+        self.ws_server.stop()
+
+        # Wait for the servers to stop
         http_server.join()
         self.ws_server.join()
-        browser.join()
 
     def run(self):
         self.executeOnReady(self)
