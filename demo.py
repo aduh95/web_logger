@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
 import os
-import sys
-import json
 import argparse
 
-from .lib.logger import Logger
+from lib.logger import Logger
 
 
 def commandExample():
@@ -42,7 +40,7 @@ def demo(client):
                 ],
             },
             {"label": "Manage targets", "submenu": []},
-            {"label": "Quit", "click": lambda: client.stop()},
+            {"label": "Quit", "click": client.stop},
         ]
     )
     while not client.should_terminate:
@@ -51,7 +49,7 @@ def demo(client):
 
 def close(client):
     print("Exiting")
-    if client and client.is_alive():
+    if not client or client.is_alive():
         os._exit(0)
     else:
         print("Ready to shutdown")
