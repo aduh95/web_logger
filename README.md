@@ -5,9 +5,10 @@
 First, you have to ensure that these dependencies are installed and available on
 your path:
 
-* [Python 3.5+](//python.org)
+- [Python 3.5+](//python.org)
 
 ```bash
+python3 -m pip install websockets
 python3.5 -m pip install websockets
 ```
 
@@ -29,8 +30,8 @@ python3 demo.py
 A banner pops in on browsers which don't support the needed feature. Also, it
 has been developed for those browsers:
 
-* Chrome 62+
-* Firefox 57+ (please activate the following flags:
+- Chrome 62+
+- Firefox 57+ (please activate the following flags:
   `dom.dialog_element.enabled`, `dom.moduleScripts.enabled`,
   `dom.allow_scripts_to_close_windows`) (Warning: Doesn't seem to work when
   launched from python CLI)
@@ -42,11 +43,10 @@ The client expect a JSON string send through the WebSocket of this form:
 ```json
 {
   "message": [
+    "message type (CSS class)",
     "date",
     "time",
-    "mnemonic",
-    "target",
-    "message type (CSS class)",
+    "message sub-part",
     "message",
     "optional keyboard input",
     "optional audio file path"

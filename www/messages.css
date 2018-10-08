@@ -1,35 +1,25 @@
 .message {
-  background-color: white;
-  color: black;
-  font-weight: normal;
+  /* Your style here */
 }
 
 .valid {
-  background-color: #666;
-  color: #0f0;
-  font-weight: bold;
+  /* Your style here */
 }
 
 .fault {
-  background-color: #666;
-  color: #ff0;
-  font-weight: bold;
+  /* Your style here */
 }
 
 .notif {
-  background-color: #169003;
-  color: white;
-  font-weight: bold;
+  /* Your style here */
 }
 
 .critical {
-  background-color: white;
-  color: #f00;
-  font-weight: bold;
+  /* Your style here */
 }
 
 .alarm {
-  background-color: #f00;
-  color: white;
-  font-weight: bold;
+  /* Your style here */
 }
+
+/* Your other styles here */

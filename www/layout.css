@@ -10,21 +10,10 @@ body {
   font-weight: normal;
 }
 
-@font-face {
-  font-family: "ArialWebFont";
-  src: url("/arial.woff2") format("woff2");
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: "ArialWebFont";
-  font-weight: bold;
-  src: url("/arialbd.woff2") format("woff2");
-}
-
 body {
   --menu-height: 1.5rem;
   --time-height: 5rem;
+  --message-subparts: 2;
   display: grid;
   grid-template-rows: var(--menu-height) var(--time-height) auto;
 }
@@ -79,8 +68,6 @@ body > nav > ul > li:hover button + ul {
 #time {
   display: block;
   width: 100%;
-  text-align: center;
-  background-color: #eee;
 
   font-size: 1.7rem;
   line-height: var(--time-height);
@@ -96,7 +83,10 @@ main {
   width: 100vw;
   overflow: auto;
   display: grid;
-  grid-template-columns: repeat(2, auto) repeat(2, 1fr) 5fr;
+  grid-template-columns: repeat(2, auto) 1fr;
+  grid-template-columns:
+    repeat(2, auto) repeat(calc(var(--message-subparts, 1) - 1), 1fr)
+    5fr;
   align-content: start;
 }
 
@@ -120,8 +110,6 @@ main * {
 main h3 {
   position: sticky;
   top: 0;
-  --border-color: grey;
-  background-color: #aaa;
   font-weight: normal;
   margin: 0;
   height: 1rem;

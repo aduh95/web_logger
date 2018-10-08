@@ -63,18 +63,17 @@ export const handleCommand = command => {
  */
 const deserializeMessage = param => {
   let i;
+  const { length } = param;
   const frag = document.createDocumentFragment();
 
-  for (i = 0; i < 4; ++i) {
-    let elem = document.createElement("div");
-    elem.appendChild(document.createTextNode(param[i]));
-    frag.appendChild(elem);
+  if (length > 2) {
+    for (i = 1; i < length - 2; ++i) {
+      let elem = document.createElement("div");
+      elem.appendChild(document.createTextNode(param[i]));
+      frag.appendChild(elem);
+    }
+    frag.lastElementChild.setAttribute("class", param[0]);
   }
-
-  let msgElement = document.createElement("div");
-  msgElement.setAttribute("class", param[i++]);
-  msgElement.appendChild(document.createTextNode(param[i++]));
-  frag.appendChild(msgElement);
 
   if (param[i++]) {
     decodeKeyboardInput(param[i - 1]);

@@ -9,10 +9,17 @@ from .ws_server import Websocket_server
 from .browser import Browser
 
 
-class ApexClient(Thread):
+class Logger(Thread):
     DEBUG_ENABLED = False
 
-    def __init__(self, browser_name, http_port, ws_port, onReady=lambda _: None, onClosing=lambda _:None):
+    def __init__(
+        self,
+        browser_name,
+        http_port,
+        ws_port,
+        onReady=lambda _: None,
+        onClosing=lambda _: None,
+    ):
         Thread.__init__(self)
         browser = Browser(browser_name, appAddress="http://localhost:" + str(http_port))
 
@@ -77,23 +84,15 @@ class ApexClient(Thread):
             traceback.print_exc(file=sys.stderr)
 
     def printMessage(
-        self,
-        message,
-        mnemonic="Unknown",
-        type="message",
-        target="Unknown",
-        keyboardInput=None,
-        audioFile=None,
+        self, *message, type="message", keyboardInput=None, audioFile=None
     ):
         self.ws_server.send(
             {
                 "message": [
+                    type,
                     strftime("%x"),
                     strftime("%X"),
-                    mnemonic,
-                    target,
-                    type,
-                    message,
+                    *message,
                     keyboardInput,
                     audioFile,
                 ]

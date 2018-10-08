@@ -5,9 +5,7 @@ import sys
 import json
 import argparse
 
-sys.path.append("./python_server")
-
-from python_server.apexClient import ApexClient
+from .lib.logger import Logger
 
 
 def commandExample():
@@ -44,18 +42,19 @@ def demo(client):
                 ],
             },
             {"label": "Manage targets", "submenu": []},
-            {"label": "Quit", "click": lambda: os._exit(0)},
+            {"label": "Quit", "click": lambda: client.stop()},
         ]
     )
-    data = []
-    with open("../example.json") as f:
-        data = json.load(f)
-    while True:
-        for message in data:
-            client.printMessage(
-                message[5], mnemonic=message[2], target=message[3], type=message[4]
-            )
-            input("Press enter to send a new demo message\n")
+    while not client.should_terminate:
+        client.printMessage("DEMO", input("Send a demo message: "))
+
+
+def close(client):
+    print("Exiting")
+    if client and client.is_alive():
+        os._exit(0)
+    else:
+        print("Ready to shutdown")
 
 
 if __name__ == "__main__":
@@ -79,7 +78,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     try:
         os.chdir(args.www)
-        ApexClient(args.browser, args.http_port, args.ws_port, onReady=demo)
+        # Comment next line to disable verbose debugging output
+        Logger.DEBUG_ENABLED = True
+        Logger(
+            args.browser, args.http_port, args.ws_port, onReady=demo, onClosing=close
+        )
     except KeyboardInterrupt:
         print("Interrupted")
-        os._exit(0)
+        close(None)
