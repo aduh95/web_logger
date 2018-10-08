@@ -10,6 +10,8 @@ from .browser import Browser
 
 
 class ApexClient(Thread):
+    DEBUG_ENABLED = False
+
     def __init__(self, browser_name, http_port, ws_port, onReady=lambda _: None):
         Thread.__init__(self)
         browser = Browser(browser_name, appAddress="http://localhost:" + str(http_port))

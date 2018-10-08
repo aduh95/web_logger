@@ -55,20 +55,20 @@ class Websocket_server(Thread):
                 pass
         try:
             while True:
-                print("WS: waiting socket...")
+                self.verbosePrint("waiting socket...")
                 data = await websocket.recv()
-                print("WS: socket received")
+                self.verbosePrint("socket received")
                 if self.apex:
                     self.apex.executeMenuAction(data)
         except websockets.exceptions.ConnectionClosed:
-            print("WS: connection closed")
+            self.verbosePrint("connection closed")
             pass
         finally:
             self.connected.remove(websocket)
 
     def send(self, data):
         for websocket in self.connected.copy():
-            print("WS: Sending data: %s" % data)
+            self.verbosePrint("Sending data: %s" % data)
             asyncio.run_coroutine_threadsafe(
                 websocket.send(json.dumps(data)), self.loop
             )
@@ -89,3 +89,7 @@ class Websocket_server(Thread):
         for task in tasks:
             task.cancel()
         self.loop.stop()
+
+    def verbosePrint(self, message):
+        if self.apex and self.apex.DEBUG_ENABLED:
+            print("WS: {}".format(message))
