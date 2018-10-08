@@ -2,6 +2,7 @@ import json
 import asyncio
 import websockets
 from threading import Thread, Semaphore
+from .loggerException import LoggerException
 
 
 class Websocket_server(Thread):
@@ -76,7 +77,7 @@ class Websocket_server(Thread):
 
     def send(self, data):
         if self.loop.is_closed():
-            raise Exception("Cannot send messages with a closed instance")
+            raise LoggerException("Cannot send messages with a closed instance")
         for websocket in self.connected.copy():
             self.verbosePrint("Sending data: %s" % data)
             asyncio.run_coroutine_threadsafe(
@@ -87,7 +88,7 @@ class Websocket_server(Thread):
         if self.server:
             self.server.close()
         else:
-            raise Exception("Cannot close non running server")
+            raise LoggerException("Cannot close non running server")
 
     def stop(self):
         if self.loop and self.loop.is_running():

@@ -1,5 +1,6 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
+from .loggerException import LoggerException
 
 
 class Server(Thread):
@@ -29,4 +30,4 @@ class Server(Thread):
         if self.httpDeamon:
             self.httpDeamon.shutdown()
         else:
-            raise Exception("Trying to stop HTTP server before starting it")
+            raise LoggerException("Trying to stop HTTP server before starting it")
