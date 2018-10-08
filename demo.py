@@ -4,6 +4,7 @@ import os
 import argparse
 
 from lib.logger import Logger
+from lib.loggerException import LoggerException
 
 
 def commandExample():
@@ -44,15 +45,22 @@ def demo(client):
         ]
     )
     while not client.should_terminate:
-        client.printMessage("DEMO", input("Send a demo message: "))
+        try:
+            client.printMessage("DEMO", input("Send a demo message: "))
+        except LoggerException as e:
+            if client.should_terminate:
+                print("Closing")
+            else:
+                print("Cannot print last message")
+                raise e
 
 
 def close(client):
-    print("Exiting")
-    if not client or client.is_alive():
-        os._exit(0)
+    if client and client.is_alive():
+        # If input is blocking the thread
+        print("Press Enter to quit")
     else:
-        print("Ready to shutdown")
+        print("Exiting")
 
 
 if __name__ == "__main__":
@@ -75,9 +83,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     try:
+        # Setting the working dir for the HTTP server
         os.chdir(args.www)
         # Comment next line to disable verbose debugging output
         Logger.DEBUG_ENABLED = True
+        # Starting the logger using the CLI arguments
         Logger(
             args.browser, args.http_port, args.ws_port, onReady=demo, onClosing=close
         )
