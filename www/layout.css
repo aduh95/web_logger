@@ -5,15 +5,15 @@ body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  font-family: Arial, "ArialWebFont", sans-serif;
-  font-size: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 20px;
   font-weight: normal;
 }
 
 body {
   --menu-height: 1.5rem;
   --time-height: 5rem;
-  --message-subparts: 2;
   display: grid;
   grid-template-rows: var(--menu-height) var(--time-height) auto;
 }
@@ -83,10 +83,7 @@ main {
   width: 100vw;
   overflow: auto;
   display: grid;
-  grid-template-columns: repeat(2, auto) 1fr;
-  grid-template-columns:
-    repeat(2, auto) repeat(calc(var(--message-subparts, 1) - 1), 1fr)
-    5fr;
+  grid-template-columns: repeat(2, auto) 1fr 5fr;
   align-content: start;
 }
 
@@ -115,10 +112,6 @@ main h3 {
   height: 1rem;
   line-height: 1rem;
   font-size: 0.65rem;
-}
-
-main :nth-child(5n) {
-  text-align: left;
 }
 
 /* End of CONTENT section */
