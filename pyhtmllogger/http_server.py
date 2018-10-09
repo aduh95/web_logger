@@ -2,6 +2,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
 from .loggerException import LoggerException
 
+__all__ = []
 
 class Server(Thread):
     def __init__(self, port=8080, bindingAddress="localhost", browserLock=None):

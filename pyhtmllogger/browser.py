@@ -2,6 +2,7 @@ import os
 import subprocess
 from threading import Thread, Lock
 
+__all__ = []
 
 class Browser(Thread):
     def __init__(self, browserPath="chrome", appAddress="http://localhost"):

@@ -4,6 +4,7 @@ import websockets
 from threading import Thread, Semaphore
 from .loggerException import LoggerException
 
+__all__ = []
 
 class Websocket_server(Thread):
     def __init__(

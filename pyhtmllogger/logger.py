@@ -8,6 +8,8 @@ from .http_server import Server
 from .ws_server import Websocket_server
 from .browser import Browser
 
+__all__ = ["Logger"]
+
 
 class Logger(Thread):
     DEBUG_ENABLED = False
@@ -84,12 +86,12 @@ class Logger(Thread):
             traceback.print_exc(file=sys.stderr)
 
     def printMessage(
-        self, *message, type="message", keyboardInput=None, audioFile=None
+        self, *message, className="message", keyboardInput=None, audioFile=None
     ):
         self.ws_server.send(
             {
                 "message": [
-                    type,
+                    className,
                     strftime("%x"),
                     strftime("%X"),
                     *message,
