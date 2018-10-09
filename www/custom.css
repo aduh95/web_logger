@@ -1,0 +1,23 @@
+body {
+  /* You can change the proportions of the elements on the page */
+  --menu-height: 1.5rem;
+  --time-height: 5rem;
+}
+
+#time {
+  /* Here you can tweak the clock style */
+}
+
+main {
+  /* example for a 4 column table */
+  grid-template-columns: repeat(2, auto) 1fr 5fr;
+  /* Google "CSS Grid" if this does not make sense to you */
+  /* If you want to have more than 4 columns or want to change
+    the table header, go take a look at index.html */
+}
+
+.message-class {
+  /* Your style here */
+}
+
+/* Your other styles here */
