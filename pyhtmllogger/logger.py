@@ -16,14 +16,15 @@ class Logger(Thread):
 
     def __init__(
         self,
-        browser_name,
-        http_port,
-        ws_port,
+        browser_path,
+        http_port=3000,
+        ws_port=3001,
         onReady=lambda _: None,
         onClosing=lambda _: None,
+        closeOnBrowserClose=True,
     ):
         Thread.__init__(self)
-        browser = Browser(browser_name, appAddress="http://localhost:" + str(http_port))
+        browser = Browser(browser_path, appAddress="http://localhost:" + str(http_port))
 
         self.should_terminate = False
         self.executeOnReady = onReady
@@ -38,6 +39,10 @@ class Logger(Thread):
 
         # Wait for browser thread to end (I.E. the user closes it)
         browser.join()
+
+        if not closeOnBrowserClose:
+            self.should_terminate = True
+            input("Browser has closed, press enter to terminate")
 
         print("Stopping servers...")
         http_server.stop()
@@ -64,16 +69,16 @@ class Logger(Thread):
 
     def defineNewMenu(self, menus):
         self.serializedFunctions = []
-        self.serializeFunctions(menus)
+        self.__serializeFunctions(menus)
         self.ws_server.send({"menu": menus})
 
-    def serializeFunctions(self, menuContainer):
+    def __serializeFunctions(self, menuContainer):
         for menuItem in menuContainer:
             if "click" in menuItem and callable(menuItem["click"]):
                 self.serializedFunctions.append(menuItem["click"])
                 menuItem["click"] = len(self.serializedFunctions)
             if "submenu" in menuItem:
-                self.serializeFunctions(menuItem["submenu"])
+                self.__serializeFunctions(menuItem["submenu"])
 
     def clean(self):
         self.ws_server.send({"command": "clean"})

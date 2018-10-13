@@ -3,8 +3,7 @@
 import os
 import argparse
 
-from lib.logger import Logger
-from lib.loggerException import LoggerException
+from pyhtmllogger import Logger, LoggerException
 
 
 def commandExample():
@@ -23,40 +22,40 @@ def commandExample():
     )
 
 
-def cleanClient(client):
+def cleanClient(logger):
     print("Let's flush all those non-sense messages")
-    client.clean()
+    logger.clean()
 
 
-def demo(client):
+def demo(logger):
     print("Client is ready")
-    client.defineNewMenu(
+    logger.defineNewMenu(
         [
             {
                 "label": "Configuration",
                 "click": None,
                 "submenu": [
                     {"label": "test", "click": commandExample},
-                    {"label": "Clean APEX", "click": lambda: cleanClient(client)},
+                    {"label": "Clean APEX", "click": lambda: cleanClient(logger)},
                 ],
             },
             {"label": "Manage targets", "submenu": []},
-            {"label": "Quit", "click": client.stop},
+            {"label": "Quit", "click": logger.stop},
         ]
     )
-    while not client.should_terminate:
+    while not logger.should_terminate:
         try:
-            client.printMessage("DEMO", input("Send a demo message: "))
+            logger.printMessage("DEMO", input("Send a demo message: "))
         except LoggerException as e:
-            if client.should_terminate:
+            if logger.should_terminate:
                 print("Closing")
             else:
                 print("Cannot print last message")
                 raise e
 
 
-def close(client):
-    if client and client.is_alive():
+def close(logger):
+    if logger and logger.is_alive():
         # If input is blocking the thread
         print("Press Enter to quit")
     else:
@@ -89,7 +88,12 @@ if __name__ == "__main__":
         Logger.DEBUG_ENABLED = True
         # Starting the logger using the CLI arguments
         Logger(
-            args.browser, args.http_port, args.ws_port, onReady=demo, onClosing=close
+            args.browser,
+            args.http_port,
+            args.ws_port,
+            onReady=demo,
+            onClosing=close,
+            closeOnBrowserClose=False,
         )
     except KeyboardInterrupt:
         print("Interrupted")
