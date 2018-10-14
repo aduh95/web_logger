@@ -2,6 +2,7 @@
 
 import os
 import argparse
+import logging
 
 from pyhtmllogger import Logger, LoggerException
 
@@ -23,12 +24,12 @@ def commandExample():
 
 
 def cleanClient(logger):
-    print("Let's flush all those non-sense messages")
+    logging.debug("Demo: Let's flush all those non-sense messages")
     logger.clean()
 
 
 def demo(logger):
-    print("Client is ready")
+    logging.debug("Demo: Client is ready")
     logger.defineNewMenu(
         [
             {
@@ -43,23 +44,15 @@ def demo(logger):
             {"label": "Quit", "click": logger.stop},
         ]
     )
-    while not logger.should_terminate:
+    while not logger.stop_event.is_set():
         try:
-            logger.printMessage("DEMO", input("Send a demo message: "))
+            logger.log("DEMO", input("Send a demo message: "))
         except LoggerException as e:
-            if logger.should_terminate:
-                print("Closing")
+            if logger.stop_event.is_set():
+                logging.debug("Demo: Closing")
             else:
-                print("Cannot print last message")
+                logging.debug("Demo: Cannot log last message")
                 raise e
-
-
-def close(logger):
-    if logger and logger.is_alive():
-        # If input is blocking the thread
-        print("Press Enter to quit")
-    else:
-        print("Exiting")
 
 
 if __name__ == "__main__":
@@ -71,30 +64,29 @@ if __name__ == "__main__":
         "--ws-port", type=int, default=8081, help="Port used for websocket server"
     )
     parser.add_argument(
-        "--browser",
-        type=str,
-        default="chromium-browser",
-        help="Path / Name of the browser to use",
+        "--browser", type=str, default=None, help="Path / Name of the browser to use"
     )
     parser.add_argument(
         "--www", type=str, default="./www", help="Path of the `www` directory"
     )
 
     args = parser.parse_args()
+    logger = None
     try:
         # Setting the working dir for the HTTP server
         os.chdir(args.www)
         # Comment next line to disable verbose debugging output
-        Logger.DEBUG_ENABLED = True
+        logging.basicConfig(level=logging.DEBUG)
         # Starting the logger using the CLI arguments
-        Logger(
-            args.browser,
-            args.http_port,
-            args.ws_port,
-            onReady=demo,
-            onClosing=close,
-            closeOnBrowserClose=False,
-        )
+        logger = Logger(args.browser, args.http_port, args.ws_port, onReady=demo)
+        # thread will now awaits until logger terminates
+        logging.info("Logger has ended")
     except KeyboardInterrupt:
-        print("Interrupted")
-        close(None)
+        logging.debug("Demo: Interrupted")
+    finally:
+        while logger and logger.is_alive():
+            # If input is blocking the thread
+            print("Demo: Press Enter to quit")
+            logger.join(3)  # print the message every 3 seconds
+        else:
+            logging.debug("Demo: Exiting")

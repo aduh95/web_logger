@@ -45,6 +45,7 @@ class Logger(Thread):
 
         # Wait for browser thread to end (I.E. the user closes it)
         browser.join()
+        logging.debug("Browser thread has ended")
 
         # stopping the event loop
         self.ws_server.stop_loop()
@@ -54,13 +55,15 @@ class Logger(Thread):
         self.ws_server.join()
 
         # logger has now terminated
-        logging.debug("")
+        logging.debug("Logger has terminated")
+        logging.debug("onReady thread status: {}".format(self.is_alive()))
 
     def run(self):
         self.start_event.wait()  # start event will be set when a client connects
         self.executeOnReady(self)
 
     def stop(self):
+        logging.debug("Sending stop event")
         self.stop_event.set()
 
     def defineNewMenu(self, menus):
@@ -82,6 +85,7 @@ class Logger(Thread):
     def executeMenuAction(self, id):
         try:
             self.__serializedFunctions[int(id) - 1]()
+            logging.debug("Menu: action has ran")
         except:
             logging.warning("Menu: Invalid action")
             traceback.print_exc(file=sys.stderr)
