@@ -1,12 +1,16 @@
+import logging
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-from threading import Thread
+from .stoppableThread import StoppableThread
 from .loggerException import LoggerException
 
 __all__ = []
 
-class Server(Thread):
-    def __init__(self, port=8080, bindingAddress="localhost", browserLock=None):
-        Thread.__init__(self)
+
+class Server(StoppableThread):
+    def __init__(
+        self, port=8080, bindingAddress="localhost", browserLock=None, stop_event=None
+    ):
+        StoppableThread.__init__(self, stop_event)
         self.port = port
         self.browserLock = browserLock
         self.httpDeamon = None
@@ -23,9 +27,9 @@ class Server(Thread):
         if self.browserLock:
             self.browserLock.release()
 
-        print("HTTP server ready")
+        logging.info("HTTP server ready")
         self.httpDeamon.serve_forever()
-        print("HTTP server off")
+        logging.info("HTTP server off")
 
     def stop(self):
         if self.httpDeamon:

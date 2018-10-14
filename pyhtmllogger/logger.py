@@ -1,7 +1,8 @@
-from threading import Thread
+from threading import Thread, Event
 from time import strftime
 
 import sys
+import logging
 import traceback
 
 from .http_server import Server
@@ -12,71 +13,66 @@ __all__ = ["Logger"]
 
 
 class Logger(Thread):
-    DEBUG_ENABLED = False
-
     def __init__(
-        self,
-        browser_path,
-        http_port=3000,
-        ws_port=3001,
-        onReady=lambda _: None,
-        onClosing=lambda _: None,
-        closeOnBrowserClose=True,
+        self, browser_path, http_port=3000, ws_port=3001, onReady=lambda _: None
     ):
         Thread.__init__(self)
-        browser = Browser(browser_path, appAddress="http://localhost:" + str(http_port))
+        self.start_event = Event()
+        self.stop_event = Event()
 
-        self.should_terminate = False
+        browser = Browser(
+            browser_path,
+            appAddress="http://localhost:" + str(http_port),
+            stop_event=self.stop_event,
+        )
+
         self.executeOnReady = onReady
-        self.ws_server = Websocket_server(ws_port, browserLock=browser.getLock())
-        self.ws_server.apex = self
-        self.ws_server.attach(self)
-        http_server = Server(http_port, browserLock=browser.getLock())
+        self.ws_server = Websocket_server(
+            ws_port,
+            handlerCallback=self.executeMenuAction,
+            browserLock=browser.getLock(),
+            start_event=self.start_event,
+            stop_event=self.stop_event,
+        )
+        http_server = Server(
+            http_port, browserLock=browser.getLock(), stop_event=self.stop_event
+        )
 
         http_server.start()
         self.ws_server.start()
         browser.start()
+        self.start()
 
         # Wait for browser thread to end (I.E. the user closes it)
         browser.join()
 
-        if not closeOnBrowserClose:
-            self.should_terminate = True
-            input("Browser has closed, press enter to terminate")
-
-        print("Stopping servers...")
-        http_server.stop()
-        self.ws_server.stop()
+        # stopping the event loop
+        self.ws_server.stop_loop()
 
         # Wait for the servers to stop
         http_server.join()
         self.ws_server.join()
 
-        onClosing(self)
+        # logger has now terminated
+        logging.debug("")
 
     def run(self):
+        self.start_event.wait()  # start event will be set when a client connects
         self.executeOnReady(self)
 
     def stop(self):
-        # Stopping WS server should close the browser
-        # Which then will terminate the other threads
-        try:
-            self.ws_server.close()
-        except:
-            # Wait for the client to be ready
-            self.executeOnReady = self.stop
-        self.should_terminate = True
+        self.stop_event.set()
 
     def defineNewMenu(self, menus):
-        self.serializedFunctions = []
+        self.__serializedFunctions = []
         self.__serializeFunctions(menus)
         self.ws_server.send({"menu": menus})
 
     def __serializeFunctions(self, menuContainer):
         for menuItem in menuContainer:
             if "click" in menuItem and callable(menuItem["click"]):
-                self.serializedFunctions.append(menuItem["click"])
-                menuItem["click"] = len(self.serializedFunctions)
+                self.__serializedFunctions.append(menuItem["click"])
+                menuItem["click"] = len(self.__serializedFunctions)
             if "submenu" in menuItem:
                 self.__serializeFunctions(menuItem["submenu"])
 
@@ -85,14 +81,15 @@ class Logger(Thread):
 
     def executeMenuAction(self, id):
         try:
-            self.serializedFunctions[int(id) - 1]()
+            self.__serializedFunctions[int(id) - 1]()
         except:
-            print("Menu: Invalid action")
+            logging.warning("Menu: Invalid action")
             traceback.print_exc(file=sys.stderr)
 
-    def printMessage(
-        self, *message, className="message", keyboardInput=None, audioFile=None
-    ):
+    def log(self, *message, className="message", keyboardInput=None, audioFile=None):
+        """
+        Logs a message. If the message cannot be logged, will raise a LoggerException
+        """
         self.ws_server.send(
             {
                 "message": [
