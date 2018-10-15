@@ -1,4 +1,13 @@
-# pyhtmllogger
+# web_logger
+
+Get your log through the web. Why having a web logger rather than a native
+interface?
+
+- Remote access
+- UI customization
+
+This application has been designed to run smoothly on a Raspberry Pi, however it
+has been designed on a platform agnostic way.
 
 ### Getting started
 
@@ -15,7 +24,7 @@ has been developed for those browsers:
 Please specify your browser path to the API.
 
 ```python
-from pyhtmllogger import Logger, LoggerException
+from web_logger import Logger, LoggerException
 
 def demo(logger):
     print("Logger ready")
@@ -38,13 +47,13 @@ Please see the `demo.py` file to see an example.
 
 ```python
 logger = Logger(
-        browser_path,
+        browser_path, # if None or none provided, Logger will start in remote mode
         http_port=3000, # TCP port to use for the HTTP server
         ws_port=3001, # TCP port to use for the WebSocket server
         onReady=lambda _: None, # callback for when logger is ready
-        onClosing=lambda _: None, # callback for when logger is about to close
-        closeOnBrowserClose=True, # flag to disable auto-closing
     )
+# the Logger constructor will block the thread until logger.stop is called
+# or the browser is closed if run in local mode
 
 # All methods should be called after the onReady callback has been called
 try:
@@ -56,7 +65,7 @@ except LoggerException:
     pass
 ```
 
-##### Audio file
+##### Audio files
 
 You have the ability to play audio sound on the interface by specifying a
 `audioFile` argument. Check what are the supported audio formats for the browser

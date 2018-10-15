@@ -4,7 +4,7 @@ import os
 import argparse
 import logging
 
-from pyhtmllogger import Logger, LoggerException
+from web_logger import Logger, LoggerException
 
 
 def commandExample():
@@ -37,7 +37,7 @@ def demo(logger):
                 "click": None,
                 "submenu": [
                     {"label": "test", "click": commandExample},
-                    {"label": "Clean APEX", "click": lambda: cleanClient(logger)},
+                    {"label": "Clean Logger", "click": lambda: cleanClient(logger)},
                 ],
             },
             {"label": "Manage targets", "submenu": []},
@@ -56,7 +56,7 @@ def demo(logger):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Launch APEX server.")
+    parser = argparse.ArgumentParser(description="Launch demo.")
     parser.add_argument(
         "--http-port", type=int, default=8080, help="Port used for HTTP web server"
     )
