@@ -3,13 +3,15 @@
 Get your log through the web. Why having a web logger rather than a native
 interface?
 
-- Remote access
-- UI customization
+- Remote access (although it works perfectly locally)
+- UI customization (if you are confortable with CSS)
 
-This application has been designed to run smoothly on a Raspberry Pi, however it
-has been designed on a platform agnostic way.
+This application was built to run smoothly on a Raspberry Pi, however it has
+been designed on a platform agnostic way.
 
 ### Getting started
+
+You need `Python 3.5+` to run this package.
 
 #### Browser support
 
@@ -27,7 +29,7 @@ Please specify your browser path to the API.
 from web_logger import Logger, LoggerException
 
 def demo(logger):
-    print("Logger ready")
+    logger.log("Logger ready")
 
 Logger("/path/to/browser", onReady=demo)
 ```
