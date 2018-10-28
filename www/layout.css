@@ -112,6 +112,7 @@ main h3 {
   height: 1rem;
   line-height: 1rem;
   font-size: 0.65rem;
+  background-color: var(--border-color);
 }
 
 /* End of CONTENT section */
