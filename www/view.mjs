@@ -5,6 +5,12 @@ import scrollToNewMessage from "/scroll.mjs";
 import socket from "/communication.mjs";
 
 /**
+ * When the number of cells in the grid overflows the threshold, the oldest
+ * cells will be removed. This is to limit memory usage.
+ */
+const GARBAGE_COLLECTOR_THRESHOLD = 999;
+
+/**
  * Sets the date into an element
  * @param elem {HTMLElement} The element to update
  */
@@ -38,8 +44,14 @@ const decodeKeyboardInput = keyboardInput =>
  */
 export const displayMessage = param => {
   const table = document.querySelector("main");
+  const messageToAppend = deserializeMessage(param);
 
-  table.appendChild(deserializeMessage(param));
+  if (table.childElementCount > GARBAGE_COLLECTOR_THRESHOLD) {
+    for (let i = messageToAppend.childElementCount; i; --i) {
+      table.querySelector("div").remove();
+    }
+  }
+  table.appendChild(messageToAppend);
   scrollToNewMessage(table);
 };
 
@@ -62,12 +74,11 @@ export const handleCommand = command => {
  * @returns A DocumentFragment containing the HTML elements
  */
 const deserializeMessage = param => {
-  let i;
   const { length } = param;
   const frag = document.createDocumentFragment();
 
   if (length > 2) {
-    for (i = 1; i < length - 2; ++i) {
+    for (var i = 1; i < length - 2; ++i) {
       let elem = document.createElement("div");
       elem.appendChild(document.createTextNode(param[i]));
       frag.appendChild(elem);
