@@ -13,11 +13,15 @@ const doTheScroll = table => {
     // @ts-ignore
     const dialog = document.getElementById("scroll-message");
     dialog.show();
-    dialog.addEventListener("click", function() {
-      bottomFixed = true;
-      doTheScroll(table);
-      dialog.close();
-    });
+    dialog.addEventListener(
+      "click",
+      function() {
+        bottomFixed = true;
+        doTheScroll(table);
+        dialog.close();
+      },
+      { once: true }
+    );
   }
 };
 
