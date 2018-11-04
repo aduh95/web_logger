@@ -21,6 +21,7 @@ body {
 /* MENU section  */
 
 body > nav {
+  --separator-color: black;
   grid-row-start: 1;
   overflow: visible;
   position: relative;
@@ -45,7 +46,7 @@ nav button {
 }
 body > nav > ul > li li.separator {
   height: 1px;
-  background-color: black;
+  background-color: var(--separator-color);
 }
 
 body > nav > ul > li ul {
@@ -85,10 +86,10 @@ main {
   display: grid;
   grid-template-columns: repeat(2, auto) 1fr 5fr;
   align-content: start;
+  --border-color: #ccc;
 }
 
 main * {
-  --border-color: #ccc;
   box-shadow: 1px 0 0 0 var(--border-color), 0 1px 0 0 var(--border-color),
     1px 1px 0 0 var(--border-color), 1px 0 0 0 var(--border-color) inset,
     0 1px 0 0 var(--border-color) inset;
