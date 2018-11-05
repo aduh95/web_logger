@@ -11,6 +11,8 @@ from .browser import Browser
 
 __all__ = ["Logger"]
 
+LOGGING_PREFIX = "web_logger.logger: "
+
 
 class Logger(Thread):
     def __init__(
@@ -45,7 +47,7 @@ class Logger(Thread):
 
         # Wait for browser thread to end (I.E. the user closes it)
         browser.join()
-        logging.debug("Browser thread has ended")
+        logging.debug(LOGGING_PREFIX+"Browser thread has ended")
 
         # stopping the event loop
         self.ws_server.stop_loop()
@@ -55,15 +57,28 @@ class Logger(Thread):
         self.ws_server.join()
 
         # logger has now terminated
-        logging.debug("Logger has terminated")
-        logging.debug("onReady thread status: {}".format(self.is_alive()))
+        logging.debug(LOGGING_PREFIX+"Logger has terminated")
+
+        if self.is_alive() and not self.start_event.is_set():
+            logging.debug(LOGGING_PREFIX +
+                          "The browser was closed before UI was ready")
+            self.start_event.set()
+            self.join()
+        logging.debug(LOGGING_PREFIX +
+                      "onReady thread still alive : {}".format(self.is_alive()))
 
     def run(self):
+        logging.debug(LOGGING_PREFIX+"waiting for start event")
         self.start_event.wait()  # start event will be set when a client connects
-        self.executeOnReady(self)
+        logging.debug(LOGGING_PREFIX+"ready event has fired")
+        if self.stop_event.is_set():
+            logging.info(LOGGING_PREFIX +
+                         "stop_event was fired before start_event; aborting...")
+        else:
+            self.executeOnReady(self)
 
     def stop(self):
-        logging.debug("Sending stop event")
+        logging.debug(LOGGING_PREFIX+"Sending stop event")
         self.stop_event.set()
 
     def defineNewMenu(self, menus):
@@ -85,9 +100,9 @@ class Logger(Thread):
     def executeMenuAction(self, id):
         try:
             self.__serializedFunctions[int(id) - 1]()
-            logging.debug("Menu: action has ran")
+            logging.debug(LOGGING_PREFIX+"Menu: action has ran")
         except:
-            logging.warning("Menu: Invalid action")
+            logging.warning(LOGGING_PREFIX+"Menu: Invalid action")
             traceback.print_exc(file=sys.stderr)
 
     def log(self, *message, className="message", keyboardInput=None, audioFile=None):

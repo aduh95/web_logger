@@ -32,13 +32,14 @@ class Browser(Thread):
                 self.stop_event.wait()
                 logging.debug("Logger received stop signal")
         elif os.access(self.browserPath, os.X_OK):
+            logging.debug("web_logger.browser: starting subprocess")
             subprocess.run(
                 [self.browserPath, "--incognito", "--app=" + self.appAddress],
                 check=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
-            logging.debug("Browser has been closed")
+            logging.debug("web_logger.browser: subprocess has terminated")
             if self.stop_event:
                 self.stop_event.set()
         else:
