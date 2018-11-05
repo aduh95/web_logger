@@ -39,6 +39,12 @@
             </label>
         </dialog>
     </div>
+    <script>
+        // Sometimes the python HTTP server get stuck after loading the first file
+        // Reloading while invaliding the cache seems to do the trick
+        const timer = setTimeout(() => window.location.reload(true), 1500);
+        addEventListener("load", () => clearTimeout(timer));
+    </script>
 </body>
 
 </html>
