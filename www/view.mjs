@@ -84,14 +84,14 @@ const deserializeMessage = param => {
       frag.appendChild(elem);
     }
     frag.lastElementChild.setAttribute("class", param[0]);
-  }
 
-  if (param[i++]) {
-    decodeKeyboardInput(param[i - 1]);
-  }
+    if (param[i++]) {
+      decodeKeyboardInput(param[i - 1]);
+    }
 
-  if (param[i++]) {
-    playAudio(param[i - 1]);
+    if (param[i++]) {
+      playAudio(param[i - 1]);
+    }
   }
 
   return frag;
