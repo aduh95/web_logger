@@ -1,4 +1,3 @@
-//@ts-check
 /**
  * @author aduh95
  * WebSocket client module

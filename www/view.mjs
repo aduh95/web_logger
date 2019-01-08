@@ -1,4 +1,3 @@
-// @ts-check
 // @ts-ignore
 import scrollToNewMessage from "/scroll.mjs";
 // @ts-ignore
@@ -12,7 +11,7 @@ const GARBAGE_COLLECTOR_THRESHOLD = 999;
 
 /**
  * Sets the date into an element
- * @param elem {HTMLElement} The element to update
+ * @param {HTMLElement} elem The element to update
  */
 const updateDate = elem => {
   elem.innerText = new Date().toLocaleTimeString();
@@ -20,7 +19,7 @@ const updateDate = elem => {
 
 /**
  * Plays an audio file
- * @param path {string} The URL of the audio file to play
+ * @param {string} path The URL of the audio file to play
  */
 const playAudio = path => {
   const audio = new Audio(path).play();
@@ -33,14 +32,14 @@ const keyListeners = [];
 
 /**
  * Add a keyboard input to listen to
- * @param keyboardInput {string} The key you want to listen to
+ * @param {string} keyboardInput The key you want to listen to
  */
 const decodeKeyboardInput = keyboardInput =>
   keyListeners.includes(keyboardInput) || keyListeners.push(keyboardInput);
 
 /**
  * Displays a message from back-end into HTML elements
- * @param param {string[]}
+ * @param {string[]} param
  */
 export const displayMessage = param => {
   const table = document.querySelector("main");
@@ -55,23 +54,10 @@ export const displayMessage = param => {
   scrollToNewMessage(table);
 };
 
-export const handleCommand = command => {
-  switch (command) {
-    case "clean":
-      const messages = document.querySelectorAll("main>div");
-      for (const message of messages) {
-        message.remove();
-      }
-      // @ts-ignore
-      document.getElementById("scroll-message").close();
-      break;
-  }
-};
-
 /**
  * Creates the HTMLElement objects for a given message
- * @param param {string[]} The message to display
- * @returns A DocumentFragment containing the HTML elements
+ * @param {string[]} param The message to display
+ * @returns {DocumentFragment} containing the HTML elements
  */
 const deserializeMessage = param => {
   const { length } = param;

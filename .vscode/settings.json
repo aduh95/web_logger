@@ -1,8 +1,4 @@
 {
-    "cSpell.words": [
-        "asyncio",
-        "chdir",
-        "strftime",
-        "websockets"
-    ]
+  "cSpell.words": ["asyncio", "chdir", "strftime", "websockets"],
+  "javascript.implicitProjectConfig.checkJs": true
 }

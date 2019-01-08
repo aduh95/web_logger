@@ -1,4 +1,3 @@
-// @ts-check
 // @ts-ignore
 import socket from "/communication.mjs";
 
@@ -6,12 +5,30 @@ const SEPARATOR_CLASS_NAME = "separator";
 const SECTION_DEFAULT_LABEL = "LABEL";
 const nav = document.createElement("nav");
 
+/**
+ * @typedef {Object} MenuSection
+ * @property {boolean} separator
+ * @property {string} label
+ * @property {number} click
+ * @property {MenuSection[]} submenu
+ */
+
+/**
+ * Creates the menu and submenu elements
+ * @param {MenuSection[]} menu The content of the menu
+ * @returns {HTMLUListElement}
+ */
 const createMenu = menu => {
   const list = document.createElement("ul");
   menu.map(createMenuSection).forEach(Node.prototype.appendChild.bind(list));
   return list;
 };
 
+/**
+ * Creates a submenu element
+ * @param {MenuSection} section
+ * @returns {HTMLLIElement}
+ */
 const createMenuSection = section => {
   const frag = document.createElement("li");
 
@@ -47,6 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
   } catch (e) {}
 });
 
+/**
+ * @param {MenuSection[]} menu The content of the menu to create
+ */
 export default menu => {
   const list = createMenu(menu);
   nav.innerHTML = "";

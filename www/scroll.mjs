@@ -3,7 +3,7 @@ let bottomFixed = true;
 
 /**
  * Scroll to the last item (or displays a dialog if the user has scrolled)
- * @param table {HTMLElement} The element to scroll
+ * @param {HTMLElement} table The element to scroll
  */
 const doTheScroll = table => {
   if (bottomFixed) {
