@@ -2,12 +2,8 @@
 import scrollToNewMessage from "/scroll.mjs";
 // @ts-ignore
 import socket from "/communication.mjs";
-
-/**
- * When the number of cells in the grid overflows the threshold, the oldest
- * cells will be removed. This is to limit memory usage.
- */
-const GARBAGE_COLLECTOR_THRESHOLD = 999;
+// @ts-ignore
+import garbageCollect from "/garbageCollector.mjs";
 
 /**
  * Sets the date into an element
@@ -45,11 +41,7 @@ export const displayMessage = param => {
   const table = document.querySelector("main");
   const messageToAppend = deserializeMessage(param);
 
-  if (table.childElementCount > GARBAGE_COLLECTOR_THRESHOLD) {
-    for (let i = messageToAppend.childElementCount; i; --i) {
-      table.querySelector("div").remove();
-    }
-  }
+  garbageCollect();
   table.appendChild(messageToAppend);
   scrollToNewMessage(table);
 };

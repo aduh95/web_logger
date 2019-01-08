@@ -1,5 +1,19 @@
-// @ts-check
 let bottomFixed = true;
+
+let scrollFrameID = null;
+
+/**
+ * Scrolls into view the last child of a given element on the next frame
+ * @param {Element} parent
+ */
+const scrollIntoViewLastElement = parent => {
+  if (scrollFrameID === null) {
+    scrollFrameID = requestAnimationFrame(() => {
+      parent.lastElementChild.scrollIntoView();
+      scrollFrameID = null;
+    });
+  }
+};
 
 /**
  * Scroll to the last item (or displays a dialog if the user has scrolled)
@@ -7,7 +21,7 @@ let bottomFixed = true;
  */
 const doTheScroll = table => {
   if (bottomFixed) {
-    table.lastElementChild.scrollIntoView();
+    scrollIntoViewLastElement(table);
   } else {
     /** @type {HTMLDialogElement} */
     // @ts-ignore
