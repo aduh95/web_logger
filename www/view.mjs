@@ -1,7 +1,7 @@
 // @ts-ignore
 import scrollToNewMessage from "/scroll.mjs";
 // @ts-ignore
-import socket from "/communication.mjs";
+import decodeKeyboardInput from "/keyboardHandler.mjs";
 // @ts-ignore
 import garbageCollect from "/garbageCollector.mjs";
 
@@ -10,7 +10,7 @@ import garbageCollect from "/garbageCollector.mjs";
  * @param {HTMLElement} elem The element to update
  */
 const updateDate = elem => {
-  elem.innerText = new Date().toLocaleTimeString();
+  elem.textContent = new Date().toLocaleTimeString();
 };
 
 /**
@@ -23,15 +23,6 @@ const playAudio = path => {
     audio.catch(e => console.error(e));
   }
 };
-
-const keyListeners = [];
-
-/**
- * Add a keyboard input to listen to
- * @param {string} keyboardInput The key you want to listen to
- */
-const decodeKeyboardInput = keyboardInput =>
-  keyListeners.includes(keyboardInput) || keyListeners.push(keyboardInput);
 
 /**
  * Displays a message from back-end into HTML elements
@@ -81,11 +72,4 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(() => {
     updateDate(time);
   }, 1000);
-});
-
-window.addEventListener("keyup", event => {
-  if (keyListeners.includes(event.key)) {
-    socket.send(event.key);
-    keyListeners.splice(keyListeners.indexOf(event.key), 1);
-  }
 });
