@@ -4,7 +4,7 @@ Get your log through the web. Why having a web logger rather than a native
 interface?
 
 - Remote access (although it works perfectly locally)
-- UI customization (if you are confortable with CSS)
+- UI customization (if you are comfortable with CSS)
 
 This application was built to run smoothly on a Raspberry Pi, however it has
 been designed on a platform agnostic way.
@@ -19,9 +19,6 @@ A banner pops in on browsers which don't support the needed feature. Also, it
 has been developed for those browsers:
 
 - Chrome 62+
-
-> On Windows the HTTP server is quite instable, you may need to reload the page
-> (press F5) if the logger get stuck before getting ready.
 
 Please specify your browser path to the API.
 
