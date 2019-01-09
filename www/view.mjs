@@ -1,4 +1,6 @@
 // @ts-ignore
+import $ from "/onDocumentReady.mjs";
+// @ts-ignore
 import scrollToNewMessage from "/scroll.mjs";
 // @ts-ignore
 import decodeKeyboardInput from "/keyboardHandler.mjs";
@@ -66,7 +68,7 @@ const deserializeMessage = param => {
   return frag;
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+$(() => {
   const time = document.getElementById("time");
   updateDate(time);
   setInterval(() => {

@@ -1,3 +1,6 @@
+// @ts-ignore
+import $ from "/onDocumentReady.mjs";
+
 let bottomFixed = true;
 
 let scrollFrameID = null;
@@ -41,7 +44,7 @@ const doTheScroll = table => {
   }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+$(() => {
   const scrollableElement = document.querySelector("main");
 
   scrollableElement.addEventListener(

@@ -1,4 +1,6 @@
 // @ts-ignore
+import $ from "/onDocumentReady.mjs";
+// @ts-ignore
 import socket from "/communication.mjs";
 
 const SEPARATOR_CLASS_NAME = "separator";
@@ -54,7 +56,7 @@ const createMenuSection = section => {
   return frag;
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+$(() => {
   document.body.appendChild(nav);
 
   try {

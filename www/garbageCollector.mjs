@@ -1,3 +1,6 @@
+// @ts-ignore
+import $ from "/onDocumentReady.mjs";
+
 /**
  * When the number of cells in the grid overflows the threshold, the oldest
  * cells will be removed. This is to limit memory usage.
@@ -19,7 +22,7 @@ let garbageCollect = () => {
   throw new Error("garbage collection is not ready");
 };
 
-const init = () => {
+$(() => {
   const table = document.querySelector("main");
   const titles = table.querySelectorAll("h3");
   const MESSAGE_LENGTH = titles.length;
@@ -34,15 +37,7 @@ const init = () => {
     }
     idleCallbackID = null;
   };
-};
-
-if (document.readyState === "loading") {
-  // Loading hasn't finished yet
-  document.addEventListener("DOMContentLoaded", init);
-} else {
-  // `DOMContentLoaded` has already fired
-  init();
-}
+});
 
 export default () => {
   if (idleCallbackID === null) {
