@@ -26,16 +26,18 @@ const doTheScroll = table => {
     /** @type {HTMLDialogElement} */
     // @ts-ignore
     const dialog = document.getElementById("scroll-message");
-    dialog.show();
-    dialog.addEventListener(
-      "click",
-      function() {
-        bottomFixed = true;
-        doTheScroll(table);
-        dialog.close();
-      },
-      { once: true }
-    );
+    if (!dialog.open) {
+      dialog.show();
+      dialog.addEventListener(
+        "click",
+        function() {
+          bottomFixed = true;
+          scrollIntoViewLastElement(table);
+          dialog.close();
+        },
+        { once: true }
+      );
+    }
   }
 };
 

@@ -22,20 +22,17 @@ let garbageCollect = () => {
 const init = () => {
   const table = document.querySelector("main");
   const titles = table.querySelectorAll("h3");
-  const MESSAGE_LENGTH = titles.length - 1;
-  const LAST_TITLE = titles.item(MESSAGE_LENGTH);
+  const MESSAGE_LENGTH = titles.length;
+  const GC_THRESHOLD =
+    GARBAGE_COLLECTOR_THRESHOLD -
+    (GARBAGE_COLLECTOR_THRESHOLD % MESSAGE_LENGTH);
+  const LAST_TITLE = titles.item(MESSAGE_LENGTH - 1);
 
   garbageCollect = () => {
-    if (idleCallbackID === null) {
-      idleCallbackID = requestIdleCallback(() => {
-        while (table.childElementCount > GARBAGE_COLLECTOR_THRESHOLD) {
-          for (let i = MESSAGE_LENGTH; i; --i) {
-            table.removeChild(LAST_TITLE.nextSibling);
-          }
-        }
-        idleCallbackID = null;
-      });
+    for (let i = table.childElementCount - GC_THRESHOLD; i > 0; --i) {
+      table.removeChild(LAST_TITLE.nextSibling);
     }
+    idleCallbackID = null;
   };
 };
 
@@ -47,4 +44,8 @@ if (document.readyState === "loading") {
   init();
 }
 
-export default garbageCollect;
+export default () => {
+  if (idleCallbackID === null) {
+    idleCallbackID = requestIdleCallback(garbageCollect);
+  }
+};
