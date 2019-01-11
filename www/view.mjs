@@ -4,8 +4,6 @@ import $ from "/onDocumentReady.mjs";
 import scrollToNewMessage from "/scroll.mjs";
 // @ts-ignore
 import decodeKeyboardInput from "/keyboardHandler.mjs";
-// @ts-ignore
-import garbageCollect from "/garbageCollector.mjs";
 
 /**
  * Sets the date into an element
@@ -34,7 +32,6 @@ export const displayMessage = param => {
   const table = document.querySelector("main");
   const messageToAppend = deserializeMessage(param);
 
-  garbageCollect();
   table.appendChild(messageToAppend);
   scrollToNewMessage(table);
 };

@@ -11,11 +11,6 @@ const requestIdleCallback =
   window.requestIdleCallback || window.requestAnimationFrame;
 
 /**
- * @type {number | null}
- */
-let idleCallbackID = null;
-
-/**
  * @returns {void}
  */
 let garbageCollect = () => {
@@ -31,16 +26,22 @@ $(() => {
     (GARBAGE_COLLECTOR_THRESHOLD % MESSAGE_LENGTH);
   const LAST_TITLE = titles.item(MESSAGE_LENGTH - 1);
 
+  while (LAST_TITLE.nextSibling) {
+    // Cleaning up eventual comments or fallback elements
+    table.removeChild(LAST_TITLE.nextSibling);
+  }
+
   garbageCollect = () => {
     for (let i = table.childElementCount - GC_THRESHOLD; i > 0; --i) {
       table.removeChild(LAST_TITLE.nextSibling);
     }
-    idleCallbackID = null;
   };
 });
 
-export default () => {
-  if (idleCallbackID === null) {
-    idleCallbackID = requestIdleCallback(garbageCollect);
-  }
-};
+export default () =>
+  new Promise(done => {
+    idleCallbackID = requestIdleCallback(() => {
+      garbageCollect();
+      done();
+    });
+  });

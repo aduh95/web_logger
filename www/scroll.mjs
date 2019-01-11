@@ -1,20 +1,26 @@
 // @ts-ignore
 import $ from "/onDocumentReady.mjs";
+// @ts-ignore
+import garbageCollect from "/garbageCollector.mjs";
 
 let bottomFixed = true;
 
-let scrollFrameID = null;
+let isScrolling = false;
 
 /**
  * Scrolls into view the last child of a given element on the next frame
  * @param {Element} parent
  */
-const scrollIntoViewLastElement = parent => {
-  if (scrollFrameID === null) {
-    scrollFrameID = requestAnimationFrame(() => {
-      parent.lastElementChild.scrollIntoView();
-      scrollFrameID = null;
+const scrollIntoViewLastElement = async parent => {
+  if (!isScrolling) {
+    isScrolling = true;
+    await garbageCollect();
+
+    parent.lastElementChild.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
     });
+    isScrolling = false;
   }
 };
 
@@ -51,8 +57,9 @@ $(() => {
     "scroll",
     () => {
       bottomFixed =
+        isScrolling ||
         scrollableElement.scrollTop + scrollableElement.clientHeight ===
-        scrollableElement.scrollHeight;
+          scrollableElement.scrollHeight;
     },
     { passive: true }
   );
