@@ -40,7 +40,7 @@ $(() => {
 
 export default () =>
   new Promise(done => {
-    idleCallbackID = requestIdleCallback(() => {
+    requestIdleCallback(() => {
       garbageCollect();
       done();
     });
