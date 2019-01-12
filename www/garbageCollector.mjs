@@ -7,6 +7,8 @@ import $ from "/onDocumentReady.mjs";
  */
 const GARBAGE_COLLECTOR_THRESHOLD = 999;
 
+let alreadySummoned = false;
+
 const requestIdleCallback =
   window.requestIdleCallback || window.requestAnimationFrame;
 
@@ -39,9 +41,15 @@ $(() => {
 });
 
 export default () =>
-  new Promise(done => {
-    requestIdleCallback(() => {
-      garbageCollect();
-      done();
-    });
+  new Promise((done, cancel) => {
+    if (alreadySummoned) {
+      cancel();
+    } else {
+      alreadySummoned = true;
+      requestIdleCallback(() => {
+        garbageCollect();
+        alreadySummoned = false;
+        done();
+      });
+    }
   });

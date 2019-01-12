@@ -5,22 +5,20 @@ import garbageCollect from "/garbageCollector.mjs";
 
 let bottomFixed = true;
 
-let isScrolling = false;
-
 /**
  * Scrolls into view the last child of a given element on the next frame
  * @param {Element} parent
  */
 const scrollIntoViewLastElement = async parent => {
-  if (!isScrolling) {
-    isScrolling = true;
+  try {
     await garbageCollect();
 
     parent.lastElementChild.scrollIntoView({
       behavior: "smooth",
       block: "end",
     });
-    isScrolling = false;
+  } finally {
+    // Ignoring garbage collection cancellation
   }
 };
 
@@ -54,12 +52,11 @@ $(() => {
   const scrollableElement = document.querySelector("main");
 
   scrollableElement.addEventListener(
-    "scroll",
+    "wheel",
     () => {
       bottomFixed =
-        isScrolling ||
         scrollableElement.scrollTop + scrollableElement.clientHeight ===
-          scrollableElement.scrollHeight;
+        scrollableElement.scrollHeight;
     },
     { passive: true }
   );
