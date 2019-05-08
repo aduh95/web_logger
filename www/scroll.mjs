@@ -17,7 +17,7 @@ const scrollIntoViewLastElement = async parent => {
       behavior: "smooth",
       block: "end",
     });
-  } finally {
+  } catch {
     // Ignoring garbage collection cancellation
   }
 };
