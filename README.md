@@ -18,7 +18,7 @@ You need `Python 3.5+` to run this package.
 A banner pops in on browsers which don't support the needed feature. Also, it
 has been developed for those browsers:
 
-- Chrome 62+
+- Chrome 66+
 
 Please specify your browser path to the API.
 
