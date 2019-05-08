@@ -1,50 +1,48 @@
 <html>
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>web_logger</title>
-    <link rel="stylesheet" href="/layout.css">
-    <link rel="stylesheet" href="/fallback-message.css">
-    <link rel="stylesheet" href="/scroll-message.css">
-    <link rel="stylesheet" href="/custom.css">
+    <link rel="stylesheet" href="/layout.css" />
+    <link rel="stylesheet" href="/fallback-message.css" />
+    <link rel="stylesheet" href="/scroll-message.css" />
+    <link rel="stylesheet" href="/custom.css" />
     <script type="module" src="/remove-fallback-warning.mjs"></script>
     <script type="module" src="/communication.mjs"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <time id="time"></time>
+      <time id="time"></time>
     </header>
     <main>
-        <h3>Date</h3>
-        <h3>Time</h3>
-        <!-- Customize table headers here -->
-        <h3>Object</h3>
-        <h3>Message</h3>
-        <!-- ---------------------------- -->
+      <h3>Date</h3>
+      <h3>Time</h3>
+      <!-- Customize table headers here -->
+      <h3>Object</h3>
+      <h3>Message</h3>
+      <!-- ---------------------------- -->
     </main>
 
     <dialog id="scroll-message">
-        New message below
+      New message below
     </dialog>
 
     <div>
-        <input id="fallback-message-ctrl" type="checkbox">
-        <dialog open="open" id="fallback-message">
-            <label for="fallback-message-ctrl">
-                <strong>Warning!</strong> Your browser does not support all the required features. You experience may
-                be less enjoyable as it should. Please consider activate the corresponding flags in your browser's
-                settings or use a different one.
-                <em>[Close]</em>
-            </label>
-        </dialog>
+      <input id="fallback-message-ctrl" type="checkbox" />
+      <dialog open="open" id="fallback-message">
+        <label for="fallback-message-ctrl">
+          <strong>Warning!</strong> Your browser does not support all the
+          required features. You experience may be less enjoyable as it should.
+          Please consider activate the corresponding flags in your browser's
+          settings or use a different one. <em>[Close]</em>
+        </label>
+      </dialog>
     </div>
-    <script>
-        // Sometimes the python HTTP server get stuck after loading the first file
-        // Reloading while invaliding the cache seems to do the trick
-        const timer = setTimeout(() => window.location.reload(true), 1500);
-        addEventListener("load", () => clearTimeout(timer));
+    <script type="module">
+      // Sometimes the python HTTP server get stuck after loading the first file
+      // Reloading while invaliding the cache seems to do the trick
+      const timer = setTimeout(() => window.location.reload(true), 1500);
+      addEventListener("load", () => clearTimeout(timer));
     </script>
-</body>
-
+  </body>
 </html>
