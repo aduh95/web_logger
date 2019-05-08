@@ -3,6 +3,7 @@ import $ from "/onDocumentReady.mjs";
 // @ts-ignore
 import garbageCollect from "/garbageCollector.mjs";
 
+const passiveEvent = { passive: true };
 let bottomFixed = true;
 
 /**
@@ -51,21 +52,21 @@ const doTheScroll = table => {
 $(() => {
   const scrollableElement = document.querySelector("main");
 
-  scrollableElement.addEventListener(
-    "wheel",
-    () => {
-      bottomFixed =
-        scrollableElement.scrollTop + scrollableElement.clientHeight ===
-        scrollableElement.scrollHeight;
-    },
-    { passive: true }
-  );
+  const computeScroll = () => {
+    bottomFixed =
+      scrollableElement.scrollTop + scrollableElement.clientHeight ===
+      scrollableElement.scrollHeight;
+  };
+
+  scrollableElement.addEventListener("wheel", computeScroll, passiveEvent);
+  scrollableElement.addEventListener("touchmove", computeScroll, passiveEvent);
+  window.addEventListener("keyup", computeScroll, passiveEvent);
 });
 
 addEventListener(
   "resize",
   () => document.getElementById("scroll-message").click(),
-  { passive: true }
+  passiveEvent
 );
 
 export default doTheScroll;
