@@ -10,18 +10,17 @@ let bottomFixed = true;
  * Scrolls into view the last child of a given element on the next frame
  * @param {Element} parent
  */
-const scrollIntoViewLastElement = async parent => {
-  try {
-    await garbageCollect();
-
-    parent.lastElementChild.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
-  } catch {
-    // Ignoring garbage collection cancellation
-  }
-};
+const scrollIntoViewLastElement = parent =>
+  garbageCollect()
+    .then(() => {
+      const { matches } = matchMedia("(prefers-reduced-motion:reduce)");
+      const behavior = matches ? "auto" : "smooth";
+      parent.lastElementChild.scrollIntoView({
+        behavior,
+        block: "end",
+      });
+    })
+    .catch(Function.prototype); // Ignoring garbage collection cancellation
 
 /**
  * Scroll to the last item (or displays a dialog if the user has scrolled)
