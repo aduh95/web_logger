@@ -14,14 +14,27 @@ const updateDate = elem => {
 };
 
 /**
+ * @type {HTMLAudioElement}
+ */
+let currentAudio;
+
+/**
  * Plays an audio file
  * @param {string} path The URL of the audio file to play
  */
 const playAudio = path => {
-  const audio = new Audio(path).play();
-  if (audio !== undefined) {
-    audio.catch(e => console.error(e));
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.remove();
   }
+  currentAudio = new Audio(path);
+  currentAudio
+    .play()
+    .then(() => {
+      currentAudio.remove();
+      currentAudio = null;
+    })
+    .catch(console.error);
 };
 
 /**
