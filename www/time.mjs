@@ -16,7 +16,10 @@ class AutoUpdateTimeElement extends HTMLTimeElement {
    * Sets the date into an element
    */
   updateDate() {
-    this.textContent = new Date().toLocaleTimeString();
+    cancelAnimationFrame(this._animationFrame);
+    this._animationFrame = requestAnimationFrame(() => {
+      this.textContent = new Date().toLocaleTimeString();
+    });
   }
 }
 

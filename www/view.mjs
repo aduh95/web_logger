@@ -1,5 +1,5 @@
 // @ts-ignore
-import scrollToNewMessage from "./scroll.mjs";
+import appendNewMessageAndScroll from "./scroll.mjs";
 // @ts-ignore
 import decodeKeyboardInput from "/keyboardHandler.mjs";
 
@@ -32,11 +32,9 @@ const playAudio = path => {
  * @param {string[]} param
  */
 export const displayMessage = param => {
-  const table = document.querySelector("main");
   const messageToAppend = deserializeMessage(param);
 
-  table.appendChild(messageToAppend);
-  scrollToNewMessage(table);
+  appendNewMessageAndScroll(messageToAppend);
 };
 
 /**

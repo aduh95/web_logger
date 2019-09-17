@@ -48,8 +48,24 @@ const doTheScroll = table => {
   }
 };
 
+const queue = new Set();
+let idleCallback, scrollableElement, scrollTable;
+
+const addMessagesToDOM = () => {
+  scrollableElement.append(...queue);
+  queue.clear();
+  idleCallback = requestIdleCallback(scrollTable);
+};
+
+const appendNewMessageAndScroll = message => {
+  queue.add(message);
+  cancelIdleCallback(idleCallback);
+  idleCallback = requestIdleCallback(addMessagesToDOM);
+};
+
 $(() => {
-  const scrollableElement = document.querySelector("main");
+  scrollableElement = document.querySelector("main");
+  scrollTable = doTheScroll.bind(null, scrollableElement);
 
   const computeScroll = () => {
     bottomFixed =
@@ -68,4 +84,4 @@ addEventListener(
   passiveEvent
 );
 
-export default doTheScroll;
+export default appendNewMessageAndScroll;
