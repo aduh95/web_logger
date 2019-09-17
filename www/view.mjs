@@ -1,17 +1,7 @@
 // @ts-ignore
-import $ from "/onDocumentReady.mjs";
-// @ts-ignore
-import scrollToNewMessage from "/scroll.mjs";
+import scrollToNewMessage from "./scroll.mjs";
 // @ts-ignore
 import decodeKeyboardInput from "/keyboardHandler.mjs";
-
-/**
- * Sets the date into an element
- * @param {HTMLElement} elem The element to update
- */
-const updateDate = elem => {
-  elem.textContent = new Date().toLocaleTimeString();
-};
 
 /**
  * @type {HTMLAudioElement}
@@ -77,11 +67,3 @@ const deserializeMessage = param => {
 
   return frag;
 };
-
-$(() => {
-  const time = document.getElementById("time");
-  updateDate(time);
-  setInterval(() => {
-    updateDate(time);
-  }, 1000);
-});
