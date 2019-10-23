@@ -18,7 +18,8 @@ You need `Python 3.5+` to run this package.
 A banner pops in on browsers which don't support the needed feature. Also, it
 has been developed for those browsers:
 
-- Chrome 66+
+- Chrome 67+
+- Firefox 63+ (by enabling `dom.dialog_element.enabled` in `about:config`)
 
 Please specify your browser path to the API.
 
