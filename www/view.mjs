@@ -13,18 +13,16 @@ let currentAudio;
  * @param {string} path The URL of the audio file to play
  */
 const playAudio = path => {
-  if (currentAudio) {
+  if (currentAudio && !currentAudio.ended) {
     currentAudio.pause();
     currentAudio.remove();
   }
   currentAudio = new Audio(path);
-  currentAudio
-    .play()
-    .then(() => {
-      currentAudio.remove();
-      currentAudio = null;
-    })
-    .catch(console.error);
+  currentAudio.addEventListener("ended", e => {
+    //@ts-ignore
+    e.target.remove();
+  });
+  currentAudio.play().catch(console.warn);
 };
 
 /**
