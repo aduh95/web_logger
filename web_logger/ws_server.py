@@ -82,7 +82,8 @@ class Websocket_server(StoppableThread):
 
     def send(self, data):
         if self.loop.is_closed():
-            raise LoggerException("Cannot send messages with a closed instance")
+            raise LoggerException(
+                "Cannot send messages with a closed instance")
         for websocket in self.connected.copy():
             logging.info("Sending data: %s" % data)
             asyncio.run_coroutine_threadsafe(
