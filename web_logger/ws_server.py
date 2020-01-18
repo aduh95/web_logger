@@ -1,7 +1,9 @@
-import json
 import asyncio
+import json
 import logging
 import websockets
+from threading import Event, Lock
+from typing import Callable
 from .stoppableThread import StoppableThread
 from .loggerException import LoggerException
 
@@ -11,13 +13,13 @@ __all__ = []
 class Websocket_server(StoppableThread):
     def __init__(
         self,
-        port=3000,
-        handlerCallback=None,
-        browserLock=None,
-        bindingAddress="localhost",
-        jsModulePath="./webSocketPort.mjs",
-        start_event=None,
-        stop_event=None,
+        port: int = 3000,
+        handlerCallback: Callable = None,
+        browserLock: Lock = None,
+        bindingAddress: str = "localhost",
+        jsModulePath: str = "./webSocketPort.mjs",
+        start_event: Event = None,
+        stop_event: Event = None,
     ):
         StoppableThread.__init__(self, stop_event)
         self.port = port

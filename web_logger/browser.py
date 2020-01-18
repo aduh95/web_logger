@@ -1,7 +1,7 @@
 import os
 import logging
 import subprocess
-from threading import Thread, Lock
+from threading import Thread, Lock, Event
 
 from .loggerException import LoggerException
 
@@ -10,7 +10,7 @@ __all__ = []
 
 class Browser(Thread):
     def __init__(
-        self, browserPath=None, appAddress="http://localhost", stop_event=None
+        self, browserPath: str = None, appAddress: str = "http://localhost", stop_event: Event = None
     ):
         Thread.__init__(self)
         self.browserPath = browserPath

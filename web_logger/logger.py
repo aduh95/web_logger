@@ -1,4 +1,5 @@
 from threading import Thread, Event
+from typing import Callable
 from time import strftime
 
 import sys
@@ -16,7 +17,8 @@ LOGGING_PREFIX = "web_logger.logger: "
 
 class Logger(Thread):
     def __init__(
-        self, browser_path, http_port=3000, ws_port=3001, onReady=lambda _: None
+        self, browser_path: str, http_port: int = 3000, ws_port: int = 3001,
+        onReady: Callable = lambda _: None
     ):
         Thread.__init__(self)
         self.start_event = Event()
@@ -105,7 +107,10 @@ class Logger(Thread):
             logging.warning(LOGGING_PREFIX+"Menu: Invalid action")
             traceback.print_exc(file=sys.stderr)
 
-    def log(self, *message, className="message", keyboardInput=None, audioFile=None):
+    def log(
+        self, *message: str, className: str = "message",
+        keyboardInput: str = None, audioFile: str = None
+    ):
         """
         Logs a message. If the message cannot be logged, will raise a LoggerException
         """
