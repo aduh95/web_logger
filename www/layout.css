@@ -69,6 +69,7 @@ body > nav > ul > li:hover button + ul {
 #time {
   display: block;
   width: 100%;
+  height: var(--time-height);
 
   font-size: 1.7rem;
   line-height: var(--time-height);
@@ -87,6 +88,9 @@ main {
   grid-template-columns: repeat(2, auto) 1fr 5fr;
   align-content: start;
   --border-color: #ccc;
+
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1rem;
 }
 
 main * {
@@ -114,6 +118,7 @@ main h3 {
   line-height: 1rem;
   font-size: 0.65rem;
   background-color: var(--border-color);
+  z-index: 1;
 }
 
 /* End of CONTENT section */
