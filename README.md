@@ -13,6 +13,10 @@ been designed on a platform agnostic way.
 
 You need `Python 3.5+` to run this package.
 
+```sh
+python3 -m pip install websockets
+```
+
 #### Browser support
 
 A banner pops in on browsers which don't support the needed feature. Also, it
