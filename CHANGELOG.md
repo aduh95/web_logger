@@ -1,5 +1,10 @@
 # Changelog
 
+### v0.6.0 (2022-04-26)
+
+- BREAKING: Minimal supported Python version: 3.7
+- Fix compatibility with websockets 10.x (and drop support for older versions)
+
 ### v0.5.1 (2019-10-23)
 
 - Fix a bug causing audio files to overlap

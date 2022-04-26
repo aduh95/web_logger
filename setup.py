@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="web_logger",
-    version="0.5.1",
+    version="0.6.0",
     author="Antoine du Hamel",
     author_email="duhamelantoine1995@gmail.com",
     description="Logger from python to HTML",
