@@ -1,7 +1,8 @@
 import asyncio
 import json
 import logging
-import websockets
+from websockets.server import serve
+from websockets.exceptions import ConnectionClosed
 from threading import Event, Lock
 from typing import Callable
 from .stoppableThread import StoppableThread
@@ -46,7 +47,7 @@ class Websocket_server(StoppableThread):
             asyncio.set_event_loop(self.loop)
             logging.debug("Loop created")
 
-        start_server = websockets.server.serve(
+        start_server = serve(
             self.handler, self.bindingAddress, self.port, loop=self.loop
         )
 
@@ -57,8 +58,7 @@ class Websocket_server(StoppableThread):
         try:
             self.loop.run_forever()
         finally:
-            self.server.wait_closed()
-            self.loop.close()
+            self.loop.run_until_complete(self.server.wait_closed())
             logging.info("WS server off")
 
     async def handler(self, websocket, path):
@@ -71,7 +71,7 @@ class Websocket_server(StoppableThread):
                 logging.debug("socket received: {}".format(data))
                 if self.handlerCallback:
                     self.handlerCallback(data)
-        except websockets.exceptions.ConnectionClosed:
+        except ConnectionClosed:
             logging.debug("connection closed")
             pass
         except asyncio.CancelledError:
