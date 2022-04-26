@@ -11,7 +11,7 @@ been designed on a platform agnostic way.
 
 ### Getting started
 
-You need `Python 3.5+` to run this package.
+You need `Python 3.7+` to run this package.
 
 ```sh
 python3 -m pip install websockets
@@ -23,7 +23,8 @@ A banner pops in on browsers which don't support the needed feature. Also, it
 has been developed for those browsers:
 
 - Chrome 67+
-- Firefox 63+ (by enabling `dom.dialog_element.enabled` in `about:config`)
+- Firefox 98+
+- Safari 15.4+
 
 Please specify your browser path to the API.
 

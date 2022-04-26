@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="MIT",
-    python_requires=">=3.5",
+    python_requires=">=3.7",
     url="https://github.com/aduh95/web_logger",
     packages=["web_logger"],
     install_requires=["websockets"],
